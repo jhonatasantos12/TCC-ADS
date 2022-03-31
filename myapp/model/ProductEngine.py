@@ -1,5 +1,6 @@
 import pyodbc
 from model import engine
+
 def RegistryProduct(name,value):
     sql ="Insert into [dbo].[product] ([name],[value]) VALUES (?,?)"
     conexao = engine.retornar_conexao_sql()
@@ -35,7 +36,7 @@ def update(id,prod,val):
     sql = "UPDATE [dbo].[product] SET name= ? , value = ? where id = ?"
     conexao = engine.retornar_conexao_sql()
     cursor = conexao.cursor()
-    cursor.execute(sql,prod,val,id)
+    cursor.execute(sql,(prod,val,id))
     cursor.commit()
     cursor.close()
     return True
