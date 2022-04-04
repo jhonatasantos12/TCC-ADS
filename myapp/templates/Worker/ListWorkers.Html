@@ -81,15 +81,21 @@
                     <table class="table table-hover">
                         <thead>
                             <th scope="col">Id</td>
-                            <th scope="col">Name</td>
-                            <th scope="col">Valor</td>
+                            <th scope="col">Nome</td>
+                            <th scope="col">Sobrenome</td>
+                            <th scope="col">CPF</td>
+                            <th scope="col">Telefone</td>
+                            <th scope="col">Cargo</td>
                             <th scope="col">Editar</td>
-                            {% for Product in Products%}
+                            {% for Worker in Workers%}
                             <tr>
-                                <td scope="row">{{Product[0]}}</td>
-                                <td>{{Product[1]}}</td>
-                                <td>{{Product[2]}}</td>
-                                <td><a href="EditProduct/{{Product[0]}}"><button   class="buttonC">editar</button></td></a>
+                                <td scope="row">{{Worker[0]}}</td>
+                                <td>{{Worker[1]}}</td>
+                                <td>{{Worker[2]}}</td>
+                                <td>{{Worker[3]}}</td>
+                                <td>{{Worker[4]}}</td>
+                                <td>{{Worker[5]}}</td>
+                                <td><a href="EditWorker/{{Worker[0]}}"><button   class="buttonC">editar</button></td></a>
                             </tr>
                             {% endfor %}
                         

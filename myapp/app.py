@@ -3,8 +3,9 @@ from model import ProductEngine
 from model import WorkerEngine
 app = Flask(__name__)
 
+#---Produtos---
 @app.route("/AddProduct", methods =["GET","POST"])
-def Add():
+def AddProduct():
 	resultado =''
 	if request.method == "POST":
 		name = request.form.get('product')
@@ -14,13 +15,13 @@ def Add():
 
 
 @app.route("/ListProduct", methods =["GET"])
-def List():
+def ListProduct():
 	resultado = ProductEngine.AllProducts()
 	return render_template('product/ListProducts.html',Products = resultado)
 
 
 @app.route("/EditProduct/<int:id_product>", methods =["GET","POST"])
-def Edit(id_product):
+def EditProduct(id_product):
 	resultado = ProductEngine.SelectProduct(id_product)
 	if request.method == "POST":
 		name = request.form.get('product')
@@ -31,6 +32,9 @@ def Edit(id_product):
 	if resultado == None:
 		return render_template('NotFound.html') #ProdutoNãoEncontrado Configurar ViewError 
 	return render_template("product/EditProduct.html",resultado = resultado)
+
+
+#---Funcionarios---
 
 @app.route("/AddWorker", methods = ['GET','POST'])
 def AddWorker():
@@ -43,3 +47,8 @@ def AddWorker():
 		WorkerEngine.RegistryWorker(nome,sobrenome,cpf,telefone,cargo)
 		return redirect("www.google.com")
 	return render_template("Worker/AddWorker.html")
+
+@app.route("/WorkersList", methods =["GET"])
+def ListWorkers():
+	resultado = WorkerEngine.AllWorkers()
+	return render_template('Worker/ListWorkers.html',Workers = resultado)
