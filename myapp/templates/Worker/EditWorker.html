@@ -35,7 +35,7 @@
             }
             .box {
                 width: 500px;
-                height: 250px;
+                height: auto;
                 background: #fff;
                 border-radius: 10px;
                 border:solid white 30px;
@@ -117,12 +117,29 @@
             <div class="box">
                 <form action="{{resultado['id']}}" method="post">
                     <div class="form-group row">
-                        <label for="worker" class="col-md-6 col-form-label text-md-right">Editar Funcionários</label>
-                        <input value="{{resultado['worker']}}" type="text" minlength="1" id="worker" class="form-control justify-content:center col-md-2" name="product" required>
+                        <label for="name" class="col-md-6 col-form-label text-md-right">Nome</label>
+                        <input value= "{{resultado['name']}}"type="text" minlength="1" id="name" class="form-control justify-content:center col-md-2" name="name" required>
+                        
                     </div>
                     <div class="form-group row">
-                        <label for="value" class="col-md-6 col-form-label text-md-right">Valor</label>
-                        <input value="{{resultado['value']}}" type="number" minlength="1" id="value" class="form-control justify-content:center col-md-2" name="value" class="width:300px" required>
+                        <label for="last_name" class="col-md-6 col-form-label text-md-right">Sobrenome</label>
+                        <input value = "{{resultado['last_name']}}"type="text" minlength="1" id="last_name" class="form-control justify-content:center col-md-2" name="last_name" class="width:300px" required>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <label for="cpf" class="col-md-6 col-form-label text-md-right">CPF</label>
+                        <input value = "{{resultado['cpf']}}" type="text" id="cpf" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px" required>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <label for="PhoneNumber" class="col-md-6 col-form-label text-md-right">Telefone</label>
+                        <input value ="{{resultado['PhoneNumber']}}"type="text"  id="PhoneNumber" class="form-control justify-content:center col-md-2" name="PhoneNumber" class="width:300px" required>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <label for="office" class="col-md-6 col-form-label text-md-right">Cargo</label>
+                        <input value ="{{resultado['Office']}}" type="text" id="office" class="form-control justify-content:center col-md-2" name="office" class="width:300px" required>
+                        
                     </div>
                     <div class="form-group row">
                         <button href="../ListWorkers" type="submit" class="buttonC">Cadastrar</button>

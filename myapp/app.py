@@ -11,6 +11,7 @@ def AddProduct():
 		name = request.form.get('product')
 		value = request.form.get('value')
 		resultado = ProductEngine.RegistryProduct(name,value)
+		redirect('/ListProduct')
 	return render_template('product/registryProduct.html',resultado =resultado)
 
 
@@ -45,10 +46,29 @@ def AddWorker():
 		telefone = request.form.get("PhoneNumber")
 		cargo = request.form.get("office")
 		WorkerEngine.RegistryWorker(nome,sobrenome,cpf,telefone,cargo)
-		return redirect("www.google.com")
+		return redirect("/WorkersList")
 	return render_template("Worker/AddWorker.html")
 
 @app.route("/WorkersList", methods =["GET"])
 def ListWorkers():
 	resultado = WorkerEngine.AllWorkers()
 	return render_template('Worker/ListWorkers.html',Workers = resultado)
+
+@app.route("/EditWorker/<int:id_worker>", methods = ['GET','POST'])
+def EditWorker(id_worker):
+	resultado = WorkerEngine.SelectWorkers(id_worker)
+	if request.method == "POST":
+		nome = request.form.get("name")
+		sobrenome = request.form.get("last_name")
+		cpf = request.form.get("cpf")
+		telefone = request.form.get("PhoneNumber")
+		cargo = request.form.get("office")
+		result = WorkerEngine.EditWorker(nome,sobrenome,cpf,telefone,cargo,id_worker)
+		if result  == True:
+			return redirect("../WorkersList")
+	if resultado == None:
+		return render_template('NotFound.html') #ProdutoNãoEncontrado Configurar ViewError 
+	return render_template("Worker/EditWorker.html",resultado = resultado)
+
+if __name__ == '__main__':
+   app.run(debug=True, host='localhost', port=5000)
