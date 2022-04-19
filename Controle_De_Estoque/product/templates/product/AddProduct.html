@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+{%block 'titulo'%}Adicionar Produto.{%endblock%}
+{%block 'conteudo'%}
+<div class="Pcontainer">
+    <div class="row g-6">
+        <div class="box">
+            <form action="{% url 'AddProduct' %}" method="post" >{% csrf_token %}
+                <div class="form-group row">
+                    <label for="product" class="col-md-6 col-form-label text-md-right">Nome Do Produto</label>
+                    <input type="text" minlength="1" id="product" class="form-control justify-content:center col-md-2" name="product" required>
+                    
+                </div>
+                <div class="form-group row">
+                    <label for="value" class="col-md-6 col-form-label text-md-right">Valor</label>
+                    <input type="number" minlength="1" id="value" class="form-control justify-content:center col-md-2" name="value" class="width:300px" required>
+                </div>
+                <div class="form-group row">
+                    <a href="/product/ListProduct"><button type="submit" class="buttonC">Cadastrar</button></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

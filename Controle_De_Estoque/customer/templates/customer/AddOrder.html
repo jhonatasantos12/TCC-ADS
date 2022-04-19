@@ -1,0 +1,38 @@
+{%extends 'base.html'%}
+
+{%block 'titulo'%}Listar Trabalhadores{%endblock%}
+{%block 'conteudo'%}
+<script>
+    $(document).ready(function(){
+            $.ajax({
+                type: 'GET',
+                url: '/customer/api/GetAll',
+                data :{},
+                success:function(data) {
+                    var s = '<option>Selecione um Cliente</option>'
+                    for (var i = 0; i<data.length; i++)
+                    {
+                        s += '<option value"'+ data.cpf + '">' +data.nome + data.last_name +'</option>';
+                        $('#cliente').html(s);
+                        $('#frois').html(data[0]);
+                    }
+                },
+        });
+    });
+
+</script>
+<div class="Pcontainer">
+    <div class="row g-6">
+        <div class="box">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <select id="cliente">Escolha o cliente</select>
+                </div>
+                <div id="frois"></div>
+                <button type="submit"  class="buttonC">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{%endblock%}

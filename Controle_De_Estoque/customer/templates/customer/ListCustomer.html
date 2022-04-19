@@ -1,0 +1,40 @@
+{%extends 'base.html'%}
+{%block 'titulo'%}Lista de Clientes{%endblock%}
+{%block 'conteudo'%}
+<main class="login-form">   
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="box" style="width: auto">
+                    <a  href="/customer/AddCustomer"><button class="buttonC" >Adicionar Novo Cliente</button> </a>
+                    <table class="table table-hover">
+                        <thead>
+                            <th scope="col">Id</td>
+                            <th scope="col">Nome</td>
+                            <th scope="col">Sobrenome</td>
+                            <th scope="col">CPF</td>
+                            <th scope="col">Telefone</td>
+                            <th scope="col">Data_de_Nascimento</td>
+                            <th scope="col">Editar</td>
+                            {% for Customer in resultado %}
+                            <tr>
+                                <td scope="row">{{Customer.id}}</td>
+                                <td>{{Customer.nome}}</td>
+                                <td>{{Customer.last_name}}</td>
+                                <td>{{Customer.cpf}}</td>
+                                <td>{{Customer.PhoneNumber}}</td>
+                                <td>{{Customer.Dt_Nascimento}}</td>
+                                <td><a href="EditCustomer/{{ Customer.id }}"><button   class="buttonC">editar</button></td></a>
+                            </tr>
+                            {% endfor %}
+                        
+                        </thead>
+                
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+{%endblock%}

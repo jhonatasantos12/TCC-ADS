@@ -1,0 +1,41 @@
+{%extends 'base.html'%}
+{%block 'titulo'%}Listar Trabalhadores{%endblock%}
+{%block 'conteudo'%}
+<main class="login-form">
+    
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="box" style="width: auto" >
+                    <a  href="/worker/AddWorker"><button class="buttonC" >Adicionar Worker</button> </a>
+                    <table class="table table-hover">
+                        <thead>
+                            <th scope="col">Id</td>
+                            <th scope="col">Nome</td>
+                            <th scope="col">Sobrenome</td>
+                            <th scope="col">CPF</td>
+                            <th scope="col">Telefone</td>
+                            <th scope="col">Cargo</td>
+                            <th scope="col">Editar</td>
+                            {% for Worker in Workers%}
+                            <tr>
+                                <td scope="row">{{Worker.id}}</td>
+                                <td>{{Worker.nome}}</td>
+                                <td>{{Worker.last_name}}</td>
+                                <td>{{Worker.cpf}}</td>
+                                <td>{{Worker.PhoneNumber}}</td>
+                                <td>{{Worker.office}}</td>
+                                <td><a href="EditWorker/{{ Worker.id }}"><button   class="buttonC">editar</button></td></a>
+                            </tr>
+                            {% endfor %}
+                        
+                        </thead>
+                
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+{%endblock%}

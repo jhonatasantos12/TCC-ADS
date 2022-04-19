@@ -1,0 +1,37 @@
+{%extends 'base.html'%}
+{%block 'titulo'%}Listar Clientes{%endblock%}
+{%block 'conteudo'%}
+<div class="Pcontainer">
+    <div class="row g-6">
+        <div class="box">
+            <form action="{{ resultado.id }}" method="post">{% csrf_token %}
+                <div class="form-group row">
+                    <label for="name" class="col-md-6 col-form-label text-md-right">Nome</label>
+                    <input value= "{{ resultado.nome }}"type="text" minlength="1" id="name" class="form-control justify-content:center col-md-2" name="name" required>
+                </div>
+                <div class="form-group row">
+                    <label for="last_name" class="col-md-6 col-form-label text-md-right">Sobrenome</label>
+                    <input value = "{{ resultado.last_name }}"type="text" minlength="1" id="last_name" class="form-control justify-content:center col-md-2" name="last_name" class="width:300px" required>
+                        
+                </div>
+                <div class="form-group row">
+                    <label for="cpf" class="col-md-6 col-form-label text-md-right">CPF</label>
+                    <input value = "{{ resultado.cpf }}" type="text" id="cpf" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px" required>
+                </div>
+                <div class="form-group row">
+                    <label for="PhoneNumber" class="col-md-6 col-form-label text-md-right">Telefone</label>
+                    <input value ="{{ resultado.PhoneNumber }}"type="text"  id="PhoneNumber" class="form-control justify-content:center col-md-2" name="PhoneNumber" class="width:300px" required>
+                </div>
+                <div class="form-group row">
+                    <label for="bdaytime" class="col-md-6 col-form-label text-md-right">DataNascimento</label>
+                    <input  type="date"  value ="{{ resultado.Dt_Nascimento }}" id="bdaytime" class="form-control justify-content:center col-md-2" name="bdaytime" class="width:300px" >
+                        
+                </div>
+                <div class="form-group row">
+                    <a href="/customer/ListCustomer"><button type="submit"  class="buttonC">Confirmar alteração</button></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}
