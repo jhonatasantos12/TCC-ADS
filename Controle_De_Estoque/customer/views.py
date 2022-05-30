@@ -1,8 +1,5 @@
-from asyncio.windows_events import NULL
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import render
-
-import customer
 from .models import Customer
 
 # Create your views here.
@@ -36,7 +33,7 @@ def EditCustomer(request,customer_id):
     customer.last_name = sobrenome
     customer.cpf = cpf
     customer.PhoneNumber = telefone
-    if Dt_Nascimento != NULL:
+    if Dt_Nascimento != None:
         customer.Dt_Nascimento = Dt_Nascimento
     customer.save()   
     return render(request,'customer/EditCustomer.html',{
@@ -45,6 +42,7 @@ def EditCustomer(request,customer_id):
 def ListCustomer(request):
     customers = Customer.objects.all()
     return render(request,'customer/ListCustomer.html', {'resultado':customers})
+    
 def GetAll(request):
     lista =[]
     customers = Customer.objects.all()
@@ -56,7 +54,4 @@ def GetAll(request):
         #dict['PhoneNumber'] = x.PhoneNumber
         #dict['Dt_Nascimento'] = x.Dt_Nascimento
         lista.append(dict)
-    return HttpResponse([lista])
-    
-def Pedidos(request):
-    return render (request,'customer/AddOrder.html')
+    return JsonResponse({'dict':lista})    

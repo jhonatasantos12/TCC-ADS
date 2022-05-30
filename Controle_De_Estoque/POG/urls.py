@@ -19,5 +19,7 @@ urlpatterns = [
     path('product/',include('product.urls')),
     path('worker/',include('worker.urls')),
     path('customer/',include('customer.urls')),
+    path('pedidos/',include('pedidos.urls')),
+    path('estoque/',include('estoque.urls')),
     path('admin/', admin.site.urls),
 ]

@@ -1,5 +1,5 @@
 from http.client import BAD_REQUEST
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from flask import request
 from requests import post
@@ -38,4 +38,15 @@ def EditProduct(request,product_id):
     product.valor = valor
     product.save()
     return render(request,'product/EditProduct.html',{
-        'resultado':product })    
+        'resultado':product })  
+        
+          
+def GetProduct(request):
+    lista =[]
+    product = Product.objects.all()
+    for x in product:
+        dict ={}
+        dict['id'] = x.id
+        dict['nome'] = x.nome
+        lista.append(dict)
+    return JsonResponse({'dict':lista})
