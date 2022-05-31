@@ -27,7 +27,7 @@
 <div class="Pcontainer">
     <div class="row g-6">
         <div class="box">
-            <form action="" method="post">
+            <form id ="form"action="" method="post">
                 {% csrf_token %}
                 <div class="form-group row">
                     <select name="cliente" id="cliente">Escolha o cliente
@@ -38,7 +38,7 @@
                 <div id="ProdSelected">
                 </div>
             </div>
-            <button type="submit"  class="buttonC">Iniciar Pedido</button>
+            <button type="submit"  value="enviar" class="buttonC" >Iniciar Pedido</button>
         </form>
         <button  class="buttonC" onclick="dialogShow()">Adicionar Produto</button>
         </div>    
@@ -65,7 +65,20 @@
         <button onclick="dialogClose()" class="buttonC">Atualizar Pedido</button>
     </dialog>
     <script>
-        
+        $(function() {
+            $('form').submit(function() {
+                var dados = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '/pedidos/StartPedido',
+                    data: dados,
+                    success: function(response) {
+                        alert('Dados enviados com sucesso!');
+                    }
+                });
+                return false;
+            });
+        });
         var dialog = document.getElementById('myDialog');
         dialog.showModal(); // mostra a janela de diálogo
         dialog.close(); // fecha a janela de diálogo
@@ -77,15 +90,15 @@
         }
         function criaproduto()
         {
-            var s =''
+            var s ='';
             {% for product in Estoque %}
 
-            quantidade = $('#{{product.produto.id}}').val()
-            id = '{{product.produto.id}}' 
-            name = '{{product.produto.nome}}'
+            quantidade = $('#{{product.produto.id}}').val();
+            id = '{{product.produto.id}}' ;
+            name = '{{product.produto.nome}}';
             if (quantidade >0 )
             {
-                var s = s+'<div class="retanguloAuto"><div class="round-border"><input type="hidden"  type="number" id="'+name+'"value="'+quantidade+'"><span style="color: black;margin: 8px">'+name+'</span><Br><span style="color: rgb(90, 90, 90); margin: 8px;">'+quantidade+'</span></div></div><br>';  
+                var s = s+'<div class="retanguloAuto"><div class="round-border"><input type="hidden"  type="number" name="'+id+'"value="'+quantidade+'"><span style="color: black;margin: 8px">'+name+'</span><Br><span style="color: rgb(90, 90, 90); margin: 8px;">'+quantidade+'</span></div></div><br>';  
             }
             $("#ProdSelected").html(s)
             {% endfor %}

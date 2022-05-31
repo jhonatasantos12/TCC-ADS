@@ -1,8 +1,6 @@
 from http.client import BAD_REQUEST
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
-from flask import request
-from requests import post
 from .models import Product
 from django.views.decorators.csrf import csrf_exempt
 

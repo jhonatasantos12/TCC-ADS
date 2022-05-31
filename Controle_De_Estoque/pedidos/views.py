@@ -6,7 +6,14 @@ from flask import request
 from product import models as ProductModel
 from estoque import models as EstoqueModel
 from customer import models as CustomerModel
+from pedidos import models as PedidosModel
+from datetime import datetime
 # Create your views here.
+def Listadepedidos(request):
+    return render(request,'pedidos/ListPedidos.html',
+    context={
+        "Pedidos": PedidosModel.Pedido.objects.all(),
+    }) 
 def pedidos(request):
     if request.method !='POST':
         return render(request,'pedidos/StartPedido.html',
@@ -16,19 +23,37 @@ def pedidos(request):
         })
     cliente = request.POST.get('cliente')
     Estoque = EstoqueModel.Estoque.objects.all()
-    ListaProd=[]
+    ProdPedido= {}
+    ProdPedido['Produtos'] ={}
     for x in Estoque:
         try:
-            produto = request.POST.get(str(x.produto.nome))
+            produto = request.POST.get(str(x.produto.id))
         except:
             produto = None
         if produto != None:
-            ListaProd.append(produto)
-        print(ListaProd,cliente,produto)
+            
+            ProdPedido['Produtos'][str(x.produto.id)] = {}
+            ProdPedido['Produtos'][str(x.produto.id)]['Id'] = str(x.produto.id)
+            ProdPedido['Produtos'][str(x.produto.id)]['NameProduct'] = str(x.produto.nome)
+            ProdPedido['Produtos'][str(x.produto.id)]['Quantidade'] = produto
+    if  ProdPedido['Produtos']:
+        ProdPedido['Cliente'] =  cliente
+        ProdPedido['Categoria'] = True
+        ProdPedido['Status'] = "Em Separação"
+    else:
+        print("Num tem produto bixo")
+    Pcliente = CustomerModel.Customer.objects.get(id = ProdPedido['Cliente'])
+    pedido = PedidosModel.Pedido.objects.create(Categoria = ProdPedido['Categoria'], Cliente = Pcliente, Status= ProdPedido['Status'])
+    pedido.save()
+    for x in ProdPedido['Produtos']:
+        produto = ProductModel.Product.objects.get(id= x)
+        ProdutoPedido = PedidosModel.ProdutoPedido.objects.create(pedido = pedido, produto=produto,quantidade=ProdPedido['Produtos'][str(x)]['Quantidade'])
+        ProdutoPedido.save()
+        Estoque = EstoqueModel.Estoque.objects.get(produto = produto)
+        Estoque.quantidade -= int(ProdPedido['Produtos'][str(x)]['Quantidade']) 
+        Estoque.save()
+    #PedidosModel.ProdutoPedido
     return render (request,'pedidos/StartPedido.html')
-
-
-
 
 
 
