@@ -38,7 +38,7 @@
                 <div id="ProdSelected">
                 </div>
             </div>
-            <button type="submit"  value="enviar" class="buttonC" >Iniciar Pedido</button>
+            <button type="submit"  value="enviar" class="buttonC" >Concluir Pedido</button>
         </form>
         <button  class="buttonC" onclick="dialogShow()">Adicionar Produto</button>
         </div>    
@@ -73,7 +73,7 @@
                     url: '/pedidos/StartPedido',
                     data: dados,
                     success: function(response) {
-                        alert('Dados enviados com sucesso!');
+                        alert('Pedido Registrado Com Sucesso');
                     }
                 });
                 return false;

@@ -9,6 +9,14 @@ from customer import models as CustomerModel
 from pedidos import models as PedidosModel
 from datetime import datetime
 # Create your views here.
+def GetPedido(request,pedido_id):
+    Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
+    ProdutosPedido = PedidosModel.ProdutoPedido.objects.filter(pedido = Pedido)
+    return render(request,'pedidos/PedidoGerado.html',
+    context={
+        'Pedido':Pedido,
+        'ProdutosPedido':ProdutosPedido,
+    }) 
 def Listadepedidos(request):
     return render(request,'pedidos/ListPedidos.html',
     context={
@@ -55,7 +63,8 @@ def pedidos(request):
     #PedidosModel.ProdutoPedido
     return render (request,'pedidos/StartPedido.html')
 
-
+def opcoes(request):
+    return render(request,'pedidos/opcoes.html')
 
 @csrf_exempt
 def entrada(request):
