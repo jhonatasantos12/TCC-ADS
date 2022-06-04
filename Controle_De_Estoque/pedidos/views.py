@@ -39,7 +39,9 @@ def pedidos(request):
         except:
             produto = None
         if produto != None:
-            
+            limiteEstq = EstoqueModel.Estoque.objects.get(produto = x.produto.id)
+            if produto > limiteEstq.Quantidade:
+                return HttpResponse('Quantidade informada Indisponivel')
             ProdPedido['Produtos'][str(x.produto.id)] = {}
             ProdPedido['Produtos'][str(x.produto.id)]['Id'] = str(x.produto.id)
             ProdPedido['Produtos'][str(x.produto.id)]['NameProduct'] = str(x.produto.nome)

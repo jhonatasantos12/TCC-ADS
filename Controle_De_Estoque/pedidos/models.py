@@ -1,6 +1,5 @@
 from django.db import models
 from django.forms import CharField
-from pandas import notnull
 from pedidos.views import pedidos
 from product import models as ProductModel
 from customer import models as CustomerModel
