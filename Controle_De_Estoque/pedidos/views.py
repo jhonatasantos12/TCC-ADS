@@ -2,7 +2,6 @@ from math import prod
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from flask import request
 from product import models as ProductModel
 from estoque import models as EstoqueModel
 from customer import models as CustomerModel
@@ -40,7 +39,7 @@ def pedidos(request):
             produto = None
         if produto != None:
             limiteEstq = EstoqueModel.Estoque.objects.get(produto = x.produto.id)
-            if produto > limiteEstq.Quantidade:
+            if int(produto) > limiteEstq.quantidade:
                 return HttpResponse('Quantidade informada Indisponivel')
             ProdPedido['Produtos'][str(x.produto.id)] = {}
             ProdPedido['Produtos'][str(x.produto.id)]['Id'] = str(x.produto.id)

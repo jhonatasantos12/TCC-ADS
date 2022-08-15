@@ -3,7 +3,6 @@ from django.shortcuts import render
 
 import worker
 from .models import Worker
-from flask import request
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 def AddWorker(request):
