@@ -22,10 +22,10 @@
                                 <td>{{ Pedido.Cliente.nome }}</td>
                                 <td>{{ Pedido.Cliente.PhoneNumber}}</td>
                                 <td>{{ Pedido.data_registro }}</td>
-                                <td>{{ Pedido.Status }}</td>
-                                <td><select name="cliente" id="cliente">Escolha o cliente
-                                    {% for customer in Customers %}
-                                        <option value ="{{customer.id}}">{{customer.nome}} {{customer.last_name}}</option>
+                                <td></td>
+                                <td><select name="pedidostatus" id ="pedidostatus">{{ Pedido.Status }}
+                                    {% for status  in data_status %}
+                                        <option value ="{{}}">{{}} {{customer.last_name}}</option>
                                     {% endfor %}
                                 </select></td>
                             </tr>

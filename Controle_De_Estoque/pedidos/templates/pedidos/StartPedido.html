@@ -26,7 +26,7 @@
 <div class="Pcontainer">
     <div class="row g-6">
         <div class="box">
-            <form id ="form"action="" method="post">
+            <form id ="form" action="{% url StartPedido %}" method="post">
                 {% csrf_token %}
                 <div class="form-group row">
                     <select name="cliente" id="cliente">Escolha o cliente
