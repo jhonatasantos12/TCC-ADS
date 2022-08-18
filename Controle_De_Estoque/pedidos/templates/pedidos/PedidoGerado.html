@@ -15,13 +15,19 @@
                             <th scope="col">Telefone</td>
                             <th scope="col">Data</td>
                             <th scope="col">Status</td>
+                            <th scope="col">NÃO SEI COM EDIÇÃO</td>
                             
                             <tr>
                                 <td scope="row">{{ Pedido.id }}</td>
                                 <td>{{ Pedido.Cliente.nome }}</td>
                                 <td>{{ Pedido.Cliente.PhoneNumber}}</td>
                                 <td>{{ Pedido.data_registro }}</td>
-                                <td>{{ Pedido.Status }}</td>
+                                <td></td>
+                                <td><select name="pedidostatus" id ="pedidostatus">{{ Pedido.Status }}
+                                    {% for status  in data_status %}
+                                        <option value ="{{}}">{{}} {{customer.last_name}}</option>
+                                    {% endfor %}
+                                </select></td>
                             </tr>
                         </thead>
                     </table>

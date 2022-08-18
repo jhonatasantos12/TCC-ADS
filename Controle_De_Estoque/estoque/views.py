@@ -9,4 +9,4 @@ def estoque(request):
         'estoque/ListEstoque.html',
         context={
             'Estoque': Estoque,}
-        )
+        ) 

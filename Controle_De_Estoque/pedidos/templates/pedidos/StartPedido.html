@@ -1,5 +1,4 @@
 {%extends 'base.html'%}
-{% load bootstrap3 %}
 {%block 'titulo'%}Listar Trabalhadores{%endblock%}
 {%block 'conteudo'%}
 <style>
@@ -27,10 +26,7 @@
 <div class="Pcontainer">
     <div class="row g-6">
         <div class="box">
-            {% bootstrap_alert alert-warning %}
-                <strong>Oh snap!</strong> Change a few things up and try submitting again.
-            {% endbootstrap_alert %}
-            <form id ="form"action="" method="post">
+            <form id ="form" action="{% url StartPedido %}" method="post">
                 {% csrf_token %}
                 <div class="form-group row">
                     <select name="cliente" id="cliente">Escolha o cliente
