@@ -7,7 +7,7 @@ from worker import models as WorkerModel
 # Create your models here.
 
 class Categoria(models.Model):
-    status = models.CharField(max_length=125) 
+    description = models.CharField(max_length=125) 
 
 class Pedido(models.Model):
     
@@ -17,7 +17,6 @@ class Pedido(models.Model):
     Estoquista = models.CharField(max_length=255,null=True)
     #Status = models.CharField(max_length=125) 
     Status = models.ForeignKey(Categoria,on_delete=models.PROTECT,null=True)
-    
     data_registro = models.DateTimeField(auto_now_add=True)
     
 

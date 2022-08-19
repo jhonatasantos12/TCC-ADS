@@ -9,17 +9,34 @@ from pedidos import models as PedidosModel
 from datetime import datetime
 # Create your views here.
 def GetPedido(request,pedido_id):
+    if request.method !='POST':
+        Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
+        ProdutosPedido = PedidosModel.ProdutoPedido.objects.filter(pedido = Pedido)
+        #Categoria = PedidosModel.Categoria.objects.all()
+        return render(request,'pedidos/PedidoGerado.html',
+        context={
+        'Pedido':Pedido,
+        'ProdutosPedido':ProdutosPedido,
+        'Categoria' :PedidosModel.Categoria.objects.all() ,
+        }) 
+    status = request.POST.get('newStatus')
+    pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
+    categoria = PedidosModel.Categoria.objects.get(id=status)
+    pedido.Status = categoria
+    pedido.save()
     Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
     ProdutosPedido = PedidosModel.ProdutoPedido.objects.filter(pedido = Pedido)
     return render(request,'pedidos/PedidoGerado.html',
-    context={
+        context={
         'Pedido':Pedido,
         'ProdutosPedido':ProdutosPedido,
-    }) 
+        'Categoria' :PedidosModel.Categoria.objects.all() ,
+        }) 
 def Listadepedidos(request):
     return render(request,'pedidos/ListPedidos.html',
     context={
         "Pedidos": PedidosModel.Pedido.objects.all(),
+        
     }) 
 def pedidos(request):
     if request.method !='POST':
@@ -47,12 +64,12 @@ def pedidos(request):
             ProdPedido['Produtos'][str(x.produto.id)]['Quantidade'] = produto
     if  ProdPedido['Produtos']:
         ProdPedido['Cliente'] =  cliente
-        ProdPedido['Categoria'] = True
         ProdPedido['Status'] = "Em Separação"
     else:
         print("Num tem produto bixo")
     Pcliente = CustomerModel.Customer.objects.get(id = ProdPedido['Cliente'])
-    pedido = PedidosModel.Pedido.objects.create(Categoria = ProdPedido['Categoria'], Cliente = Pcliente, Status= ProdPedido['Status'])
+    status = PedidosModel.Categoria.objects.get(id = 1)
+    pedido = PedidosModel.Pedido.objects.create(Cliente = Pcliente, Status= status)
     pedido.save()
     for x in ProdPedido['Produtos']:
         produto = ProductModel.Product.objects.get(id= x)

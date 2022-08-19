@@ -20,7 +20,7 @@
                                 <td>{{ pedido.Cliente.nome }}</td>
                                 <td>{{ pedido.Cliente.PhoneNumber}}</td>
                                 <td>{{ pedido.data_registro }}</td>
-                                <td>{{ pedido.Status }}</td>
+                                <td>{{ pedido.Status.description }}</td>
                                 <td><a href="PedidoNr/{{ pedido.id }}"><button  class="buttonC">Ver</button></td></a>
                             </tr>
                             {% endfor %}

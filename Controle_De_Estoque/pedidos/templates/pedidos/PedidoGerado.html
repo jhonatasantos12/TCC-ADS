@@ -1,8 +1,23 @@
 {%extends 'base.html'%}
 {%block 'titulo'%}Lista de Produts.{%endblock%}
 {%block 'conteudo'%}
-<style>
-</style>
+<script>
+    $(function formsubmit() {
+            $('form').submit(function() {
+                var dados = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '/pedidos/PedidoNr/{{ Pedido.id }}',
+                    data: dados,
+                    success: function(response) {
+                        alert('Status Alterado');
+                    }
+                });
+                return false;
+            });
+        });
+
+</script>
 <main class="login-form">
     <div class="cotainer">
         <div class="row justify-content-center">
@@ -15,19 +30,29 @@
                             <th scope="col">Telefone</td>
                             <th scope="col">Data</td>
                             <th scope="col">Status</td>
-                            <th scope="col">NÃO SEI COM EDIÇÃO</td>
-                            
+                            <th scope="col">Button</th>
                             <tr>
                                 <td scope="row">{{ Pedido.id }}</td>
                                 <td>{{ Pedido.Cliente.nome }}</td>
                                 <td>{{ Pedido.Cliente.PhoneNumber}}</td>
                                 <td>{{ Pedido.data_registro }}</td>
-                                <td></td>
-                                <td><select name="pedidostatus" id ="pedidostatus">{{ Pedido.Status }}
-                                    {% for status  in data_status %}
-                                        <option value ="{{}}">{{}} {{customer.last_name}}</option>
-                                    {% endfor %}
-                                </select></td>
+                                <td>
+                                    <form id ='form'>
+                                        {% csrf_token %}
+                                        <select name="newStatus"id = "newStatus" onchange="formsubmit()">
+                                            <option value ="{{ Pedido.Status.id }}">{{ Pedido.Status.description }} </option>
+                                            {% for status in Categoria %}
+                                                <option value ="{{status.id}}">{{status.description}}</option>
+                                            {% endfor %}
+                            
+                                        </select>
+                                        <td>
+                                            <button type="submit"   class="buttonC" >
+                                                Confirmar alteração
+                                            </button>
+                                        </td>
+                                    </form> 
+                                </td>
                             </tr>
                         </thead>
                     </table>
