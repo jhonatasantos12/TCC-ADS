@@ -36,23 +36,34 @@
                                 <td>{{ Pedido.Cliente.nome }}</td>
                                 <td>{{ Pedido.Cliente.PhoneNumber}}</td>
                                 <td>{{ Pedido.data_registro }}</td>
-                                <td>
-                                    <form id ='form'>
-                                        {% csrf_token %}
-                                        <select name="newStatus"id = "newStatus" onchange="formsubmit()">
-                                            <option value ="{{ Pedido.Status.id }}">{{ Pedido.Status.description }} </option>
-                                            {% for status in Categoria %}
-                                                <option value ="{{status.id}}">{{status.description}}</option>
-                                            {% endfor %}
-                            
-                                        </select>
+                                
+                                    {% if  IsAlternable  %}3
                                         <td>
-                                            <button type="submit"   class="buttonC" >
+                                            <form id ='form'>
+                                                {% csrf_token %}
+                                                <select name="newStatus"id = "newStatus" onchange="formsubmit()">
+                                                    <option value ="{{ Pedido.Status.id }}">{{ Pedido.Status.description }} </option>
+                                                    {% for status in Categoria %}
+                                                        <option value ="{{status.id}}">{{status.description}}</option>
+                                                    {% endfor %}
+                                    
+                                                </select>
+                                        </td>
+                                            <td>
+                                                <button type="submit"   class="buttonC" >
+                                                    Confirmar alteração
+                                                </button>
+                                            </td>
+                                        </form>
+                                    
+                                    {% else %}
+                                        <td>{{ Pedido.Status.description }}</td>,
+                                        <td>
+                                            <button type="button"   class="buttonC" disabled>
                                                 Confirmar alteração
                                             </button>
                                         </td>
-                                    </form> 
-                                </td>
+                                    {% endif %} 
                             </tr>
                         </thead>
                     </table>

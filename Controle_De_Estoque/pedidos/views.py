@@ -8,16 +8,23 @@ from customer import models as CustomerModel
 from pedidos import models as PedidosModel
 from datetime import datetime
 # Create your views here.
+
+
 def GetPedido(request,pedido_id):
     if request.method !='POST':
         Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
         ProdutosPedido = PedidosModel.ProdutoPedido.objects.filter(pedido = Pedido)
+        if Pedido.Status.description == "Finalizado" or Pedido.Status.description == "Cancelado":
+            alternable = False
+        else:
+            alternable = True
         #Categoria = PedidosModel.Categoria.objects.all()
         return render(request,'pedidos/PedidoGerado.html',
         context={
         'Pedido':Pedido,
         'ProdutosPedido':ProdutosPedido,
         'Categoria' :PedidosModel.Categoria.objects.all() ,
+        'IsAlternable' : alternable,
         }) 
     status = request.POST.get('newStatus')
     pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
@@ -26,12 +33,20 @@ def GetPedido(request,pedido_id):
     pedido.save()
     Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
     ProdutosPedido = PedidosModel.ProdutoPedido.objects.filter(pedido = Pedido)
+    if Pedido.Status.description == "Finalizado" or Pedido.Status.description == "Cancelado":
+        alternable = False
+    else:
+        alternable = True
     return render(request,'pedidos/PedidoGerado.html',
         context={
         'Pedido':Pedido,
         'ProdutosPedido':ProdutosPedido,
         'Categoria' :PedidosModel.Categoria.objects.all() ,
+        'IsAlternable' : alternable,
         }) 
+
+
+
 def Listadepedidos(request):
     return render(request,'pedidos/ListPedidos.html',
     context={
