@@ -5,7 +5,6 @@ from product import models as ModelProduto
 class Estoque(models.Model):
     produto = models.ForeignKey(ModelProduto.Product,on_delete=models.PROTECT)
     quantidade = models.IntegerField()
+    min_prod = models.IntegerField(null=True)
+    max_prod = models.IntegerField(null=True) 
 
-class min_max(models.Model):
-    min_prod = models.IntegerField()
-    max_prod = models.IntegerField() 
