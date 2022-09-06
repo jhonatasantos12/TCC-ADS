@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{%block 'titulo'%}Listar Trabalhadores{%endblock%}
+{%block 'conteudo'%}
+<div class="Pcontainer">
+    <div class="row g-6">
+        <div class="box">
+            <form action="{%url 'AddCustomer' %}" method="post">
+                <input type="hidden" id="{{context.Product.id}}" name="{{context.Product.id}}" value="{{context.Product.name}}">
+                {% csrf_token %}
+                <div class="form-group row">
+                    {% if context.min_prod %}
+    
+                        <label for="min_prod" class="col-md-6 col-form-label text-md-right">minimo</label>
+                        <input type="number" value="{{context.min_prod}}" id="min_prod" class="form-control justify-content:center col-md-2" name="min_prod">
+                    {% else %}
+                        <label for="min_prod" class="col-md-6 col-form-label text-md-right">minimo</label>
+                        <input type="number" id="min_prod" class="form-control justify-content:center col-md-2" name="min_prod">
+                    
+                    {% endif %}
+                </div>
+                <div class="form-group row">
+                    {% if context.max_prod %}
+                        <label for="max_prod" class="col-md-6 col-form-label text-md-right">maximo</label>
+                        <input type="max_prod" value="{{context.max_prod}}" id="max_prod" class="form-control justify-content:center col-md-2" name="max_prod" class="width:300px" >
+                    {% else %}
+                        <label for="max_prod" class="col-md-6 col-form-label text-md-right">maximo</label>
+                        <input type="max_prod" id="max_prod" class="form-control justify-content:center col-md-2" name="max_prod" class="width:300px" >
+                    {%endif %}
+                <div class="form-group row">
+                    <a href=""><button type="submit"  class="buttonC">Registrar</button></a>
+                </div>
+                </form>
+    </div>
+</div>
+{%endblock%}
