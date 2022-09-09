@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+
+from pedidos.models import ProdutoPedido
 from .models import Estoque as MEstoque 
-from .models import Limite as MLimite
 from product import models as ModelProduto
 # Create your views here.
 def estoque(request):
@@ -10,20 +11,29 @@ def estoque(request):
         request,
         'estoque/ListEstoque.html',
         context={
-            'Estoque': Estoque,}
+            'Estoque': Estoque,
+            }
         ) 
-def limite(request,prod_id):
-    product = ModelProduto.Product.objects.get(id=prod_id)
-    estoque = MEstoque.objects.get(produto= product)
-    try:
-        limite = MLimite.objects.get(id_estoque =estoque)
-    except:
-        limite = None
+def limite(request,estoque_id):
+    if request.method != 'POST': 
+        estoque = MEstoque.objects.get(id = estoque_id)
+        return render(
+            request,
+            'estoque/limites.html',
+            context={
+                'estoque': estoque,
+            }
+        )
+    min = request.POST.get('min_prod')
+    max = request.POST.get('max_prod')
+    estoque = MEstoque.objects.get(id = estoque_id)
+    estoque.min_prod=min
+    estoque.max_prod=max
+    estoque.save()
     return render(
-        request,
-        'estoque/limites.html',
-        context={
-            'estoque': estoque,
-            'limites':limite,
-        }
-    )
+            request,
+            'estoque/limites.html',
+            context={
+                'estoque': estoque,
+            }
+        )

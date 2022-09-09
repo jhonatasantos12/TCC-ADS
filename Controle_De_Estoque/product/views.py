@@ -25,8 +25,9 @@ def ListProduct(request,):
     return render(request,'product/ListProduct.html',{'Products':produtos})
 def EditProduct(request,product_id):
     product = Product.objects.get(id = product_id)
-    if request.method != 'POST': return render(request,'product/EditProduct.html',{
-        'resultado':product
+    if request.method != 'POST': 
+        return render(request,'product/EditProduct.html',{
+            'resultado':product
         })    
     nome = request.POST.get('product')
     valor = request.POST.get('value')

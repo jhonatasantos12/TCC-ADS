@@ -6,13 +6,14 @@ from product import models as ProductModel
 from estoque import models as EstoqueModel
 from customer import models as CustomerModel
 from pedidos import models as PedidosModel
-from datetime import datetime
+
 # Create your views here.
 
 
 def GetPedido(request,pedido_id):
     if request.method !='POST':
         Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
+        
         ProdutosPedido = PedidosModel.ProdutoPedido.objects.filter(pedido = Pedido)
         if Pedido.Status.description == "Finalizado" or Pedido.Status.description == "Cancelado":
             alternable = False
@@ -119,6 +120,5 @@ def entrada(request):
     else:
         tem.quantidade  += int(quantidade)
         tem.save()
-    print(tem)
     return HttpResponse(produtoR,quantidade)
     

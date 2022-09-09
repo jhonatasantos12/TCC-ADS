@@ -11,11 +11,29 @@
                             <th scope="col">Id</td>
                             <th scope="col">Name</td>
                             <th scope="col">quantidade</td>
+                            <th scope="col">min</th>
+                            <th scope="col">max</th>
+                            <th scope="col">Button</th>
                             {% for Product in Estoque %}
                             <tr>
                                 <td scope="row">{{ Product.id }}</td>
                                 <td>{{ Product.produto.nome }}</td>
                                 <td>{{ Product.quantidade }}</td>
+                                {% if Product.min_prod %}
+                                    <td>{{Product.min_prod}}</td>
+                                {%else%}
+                                    <td>N/A</td>
+                                {% endif %}
+                                {% if Product.max_prod %}
+                                    <td>{{Product.max_prod}}</td>
+                                {%else%}
+                                    <td>N/A</td>
+                                {% endif %}
+                                {% if Product.max_prod or Product.min_prod%}
+                                    <td><a href="./limite/{{Product.id}}"  class="buttonC">Editar</a></td>
+                                {%else%}
+                                    <td><a href="./limite/{{Product.id}}"  class="buttonC">Criar</a></td>
+                                {%endif%}
                             </tr>
                             {% endfor %}
                         
