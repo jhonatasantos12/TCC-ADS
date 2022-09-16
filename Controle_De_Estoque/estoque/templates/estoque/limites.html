@@ -1,15 +1,22 @@
 {%extends 'base.html'%}
 {%block 'titulo'%}Listar Trabalhadores{%endblock%}
 {%block 'conteudo'%}
+{% if alert %}
+    <script>
+        $(document).ready(function(){
+        dialog.showModal();
+     });
+    </script>
+{%endif%}
 <div class="Pcontainer">
     <div class="row g-6">
         <div class="box">
             <form action="" method="post">
                 <input type="hidden" id="{{estoque.Product.id}}" name="{{estoque.Product.id}}" value="{{estoque.Product.name}}">
+                
                 {% csrf_token %}
                 <div class="form-group row">
                     {% if estoque.min_prod %}
-    
                         <label for="min_prod" class="col-md-6 col-form-label text-md-right">minimo</label>
                         <input type="number" value="{{estoque.min_prod}}" id="min_prod" class="form-control justify-content:center col-md-2" name="min_prod">
                     {% else %}
@@ -27,9 +34,34 @@
                         <input type="max_prod" id="max_prod" class="form-control justify-content:center col-md-2" name="max_prod" class="width:300px" >
                     {%endif %}
                 <div class="form-group row">
-                    <a href=""><button type="submit"  class="buttonC">Registrar</button></a>
+                    <button type="submit"  class="buttonC">Registrar</button>
                 </div>
-                </form>
+            </form>
+        </div>
+        <button onclick="dialog.showModal()">Botão</button>
     </div>
+</div>
+
+<div>
+    <dialog id="myAlert">
+        <div>
+            <div class="circle" style="background-color: #ed3507; width: 40px; height: 40px; border-radius: 50%; margin: 5px;">
+            </div>
+            <div id="mensagem">
+                Operação cancelada, você não pode fazer isso
+            </div>
+        </div>
+        <button onclick="dialogClose()" class="buttonC">FecharDialog</button> 
+    </dialog>
+    <script>
+        var dialog = document.getElementById('myAlert');
+            dialog.showModal(); // mostra a janela de diálogo
+            dialog.close(); // fecha a janela de diálogo
+            function dialogShow() { dialog.showModal(); }
+            function dialogClose() 
+            {
+                dialog.close(); 
+            }
+    </script>
 </div>
 {%endblock%}

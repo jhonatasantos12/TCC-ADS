@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-
 from pedidos.models import ProdutoPedido
 from .models import Estoque as MEstoque 
 from product import models as ModelProduto
@@ -26,7 +25,21 @@ def limite(request,estoque_id):
         )
     min = request.POST.get('min_prod')
     max = request.POST.get('max_prod')
+    minInt = int(min)
+    maxInt = int(max)
     estoque = MEstoque.objects.get(id = estoque_id)
+    if minInt > maxInt:
+        alert ={}
+        alert['message']="Cadastrado com Sucesso"
+        alert['st']= "Sucess"
+        return render(
+            request, 
+            'estoque/limites.html',
+            context={
+                'estoque': estoque,
+                'alert': alert,
+            }
+        )
     estoque.min_prod=min
     estoque.max_prod=max
     estoque.save()
