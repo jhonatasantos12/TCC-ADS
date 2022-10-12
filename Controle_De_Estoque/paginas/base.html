@@ -58,6 +58,12 @@
             border-radius: 10px;
             cursor: pointer;
             width: 100%;
+        }
+        .msgmanipulator {
+            border-radius: 13px;
+            background-color: rgb(125, 171, 247);
+            width: auto;
+            height: auto;
         }            
     </style>
 
@@ -80,8 +86,6 @@
         {% else %}
             <dialog id="myAlert">
                 <div>
-                    <div class="circle" style="background-color: #ed3507; width: 40px; height: 40px; border-radius: 50%; margin: 5px; justify-content: center;">
-                    </div>
                     <div id="message">
                     </div>
                 </div>
@@ -102,9 +106,13 @@
         </div>
         <script>
             $(document).ready(function(){
-            messages = '{{alert.messages}}';
-            dialogShow(messages);
-        });
+                var messages ='';
+                {% for message in alert.messages %}
+                    messages +="<div class='retanguloAuto'>{{message}}</div><br>";
+                {% endfor %}
+                
+                dialogShow(messages);
+            });
         </script>
         {% endif %}
     {%endif%}
