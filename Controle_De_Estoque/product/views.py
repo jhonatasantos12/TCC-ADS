@@ -18,7 +18,18 @@ def AddProduct(request):
         return Http404
     product = Product.objects.create(nome=nome,valor=valor)
     product.save()
-    return render(request,'product/AddProduct.html',{'resultado':"sucesso"})
+    alert={}
+    alert['type']=1
+    alert['title']="Sucesso"
+    alert['text']=f"{nome}, foi inserido com sucesso"
+    alert['icon']="success"
+    return render(
+        request,
+        'product/AddProduct.html',
+        context={
+            "alert": alert
+            } 
+        )
 
 def ListProduct(request,):
     produtos = Product.objects.all()
@@ -36,8 +47,19 @@ def EditProduct(request,product_id):
     product.nome = nome
     product.valor = valor
     product.save()
-    return render(request,'product/EditProduct.html',{
-        'resultado':product })  
+    alert={}
+    alert['type']=1
+    alert['title']="Sucesso"
+    alert['text']=f"{nome}, foi editado com sucesso"
+    alert['icon']="success"
+    return render(
+        request,
+        'product/EditProduct.html',
+        context={
+            "alert": alert,
+            'resultado':product
+            } 
+        )
         
           
 def GetProduct(request):

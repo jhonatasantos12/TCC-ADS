@@ -46,10 +46,20 @@ def EditCustomer(request,customer_id):
     customer.PhoneNumber = telefone
     if Dt_Nascimento != None:
         customer.Dt_Nascimento = Dt_Nascimento
-    customer.save()   
-    return render(request,'customer/EditCustomer.html',{
+    customer.save()
+    alert={}
+    alert['type']=1
+    alert['title']="Sucesso"
+    alert['text']=f"{nome}, foi editado com sucesso"
+    alert['icon']="success"
+    return render(
+        request,
+        'customer/EditCustomer.html',
+        context={
+            'alert': alert,
             'resultado':customer
-            })
+            }
+            )
 def ListCustomer(request):
     customers = Customer.objects.all()
     return render(request,'customer/ListCustomer.html', {'resultado':customers})
