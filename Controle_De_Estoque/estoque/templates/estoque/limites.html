@@ -1,38 +1,7 @@
 {%extends 'base.html'%}
 {%block 'titulo'%}Listar Trabalhadores{%endblock%}
 {%block 'conteudo'%}
-{% if alert %}
-    <div>
-        <dialog id="myAlert">
-            <div>
-                <div class="circle" style="background-color: #ed3507; width: 40px; height: 40px; border-radius: 50%; margin: 5px; justify-content: center;">
-                </div>
-                <div id="message">
-                    Operação cancelada, você não pode fazer isso
-                </div>
-            </div>
-            <button onclick="dialogClose()" class="buttonC">Ok</button> 
-        </dialog>
-        <script>
-            var dialog = document.getElementById('myAlert');
-                dialog.showModal(); // mostra a janela de diálogo
-                dialog.close(); // fecha a janela de diálogo
-                function dialogShow(message) { 
-                    $("#message").html(message)
-                    dialog.showModal(); }
-                function dialogClose() 
-                {
-                    dialog.close(); 
-                }
-        </script>
-    </div>
-    <script>
-        $(document).ready(function(){
-        message = '{{alert.message}}';
-        dialogShow(message);
-     });
-    </script>
-{%endif%}
+
 <div class="Pcontainer">
     <div class="row g-6">
         <div class="box">

@@ -102,9 +102,19 @@ def opcoes(request):
 
 @csrf_exempt
 def entrada(request):
+    alert ={}
+    alert['messages']=[]
+    alert['st']= "Sucess"
+    Estoque = EstoqueModel.Estoque.objects.all()
     if request.method !='POST':
+        for product in Estoque:
+            if product.quantidade < product.min_prod:
+                product_message = f"Alertamos que o produto {product.produto.nome},esta com quantidade abaixo do esperado em estoque</br>"
+                alert['messages'].append(product_message)
+        print(alert)
         return render (request,'pedidos/EntradaEstoque.html',
         context={
+            "alert" :alert,
             "produtos": ProductModel.Product.objects.all()
         })
     quantidade = request.POST.get('qtd')

@@ -61,6 +61,38 @@
     <title>{%block 'titulo'%}{%endblock%}</title>
 </head>
 <body>
+    <!-- AlertsDialog -->
+    {% if alert %}
+    <div>
+        <dialog id="myAlert">
+            <div>
+                <div class="circle" style="background-color: #ed3507; width: 40px; height: 40px; border-radius: 50%; margin: 5px; justify-content: center;">
+                </div>
+                <div id="message">
+                </div>
+            </div>
+            <button onclick="dialogClose()" class="buttonC">Ok</button> 
+        </dialog>
+        <script>
+            var dialog = document.getElementById('myAlert');
+                dialog.showModal(); // mostra a janela de diálogo
+                dialog.close(); // fecha a janela de diálogo
+                function dialogShow(messages) { 
+                    $("#message").html(messages)
+                    dialog.showModal(); }
+                function dialogClose() 
+                {
+                    dialog.close(); 
+                }
+        </script>
+    </div>
+    <script>
+        $(document).ready(function(){
+        messages = '{{alert.messages}}';
+        dialogShow(messages);
+     });
+    </script>
+    {%endif%}
 <!-- MENU SUPERIOR-->
 <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
     <div class="container">
