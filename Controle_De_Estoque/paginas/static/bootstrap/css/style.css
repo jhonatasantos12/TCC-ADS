@@ -275,3 +275,27 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+/*** Menu Horizontal ***/
+
+#menu-horizontal ul{
+    list-style: none;
+    padding: 0;
+    background-color: rgb(75, 75, 77);
+}
+
+#menu-horizontal ul li{
+    display: inline;
+}
+
+#menu-horizontal ul li a{
+    color: #fff;
+    padding: 20px;
+    display: inline-block;
+    text-decoration: none;
+    transition: background .4s;
+}
+
+#menu-horizontal ul li a:hover{
+    background-color: rgb(24, 139, 233);
+}
