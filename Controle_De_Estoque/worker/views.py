@@ -17,7 +17,18 @@ def AddWorker(request):
         return Http404
     Trabalhador = Worker.objects.create(nome = nome,last_name=sobrenome,cpf=  cpf ,PhoneNumber = telefone, office = cargo)
     Trabalhador.save()
-    return render(request,'worker/AddWorker.html')
+    alert={}
+    alert['type']=1
+    alert['title']="Sucesso"
+    alert['text']=f"{nome}, foi cadastrado com sucesso"
+    alert['icon']="success"
+    return render(
+        request,
+        'worker/AddWorker.html',
+        context={
+            'alert': alert
+            }
+            )
 
 def ListWorker(request):
     Workers = Worker.objects.all()
@@ -41,6 +52,16 @@ def EditWorker(request,worker_id):
     worker.PhoneNumber= telefone
     worker.office = cargo 
     worker.save()
-    return render(request,'worker/EditWorker.html',{
-        'resultado':worker
-        })
+    alert = {}
+    alert['type']=1
+    alert['title']="Sucesso"
+    alert['text']=f"{nome}, foi editado com sucesso"
+    alert['icon']="success"
+    return render(
+        request,
+        'worker/EditWorker.html',
+        context={
+            'alert': alert,
+            'resultado':worker
+        }
+        )
