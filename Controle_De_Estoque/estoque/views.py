@@ -30,9 +30,10 @@ def limite(request,estoque_id):
     estoque = MEstoque.objects.get(id = estoque_id)
     if minInt > maxInt:
         alert ={}
-        alert['messages']=[]
-        alert['messages'].append("O minimo não pode ser maior que o maximo, Testing")
-        alert['st']= "Sucess"
+        alert['type']=1
+        alert['title']="WARNING"
+        alert['text']="O minimo não pode ser maior que o maximo"
+        alert['icon']="error"
         return render(
             request, 
             'estoque/limites.html',

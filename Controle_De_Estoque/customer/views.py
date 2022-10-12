@@ -16,7 +16,18 @@ def AddCustomer(request):
         return Http404
     Cliente = Customer.objects.create(nome = nome,last_name=sobrenome,cpf=  cpf ,PhoneNumber = telefone, Dt_Nascimento = Dt_Nascimento)
     Cliente.save()
-    return render(request,'customer/AddCustomer.html')
+    alert={}
+    alert['type']=1
+    alert['title']="Sucesso"
+    alert['text']=f"{nome} {sobrenome}, Cadastrado(a) com sucesso"
+    alert['icon']="success"
+    return render(
+        request,
+        'customer/AddCustomer.html',
+        context={
+            "alert": alert
+            }
+        )
     
 def EditCustomer(request,customer_id):
     customer = Customer.objects.get(id = customer_id)
