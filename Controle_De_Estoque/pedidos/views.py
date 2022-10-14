@@ -98,25 +98,31 @@ def pedidos(request):
     return render (request,'pedidos/StartPedido.html')
 
 def opcoes(request):
-    return render(request,'pedidos/opcoes.html')
+    alert ={}
+    alert['messages']=[]
+    Estoque = EstoqueModel.Estoque.objects.all()
+    if request.method !='POST':
+        for product in Estoque:
+            if product.quantidade < product.min_prod:
+                product_message = f"Alertamos que o produto {product.produto.nome},esta com quantidade abaixo do esperado em estoque"
+                alert['messages'].append(product_message)
+        if len(alert['messages']) < 1:
+            return render(request,'pedidos/opcoes.html')
+    return render(request,'pedidos/opcoes.html',context={"alert" :alert})
 
 @csrf_exempt
 def entrada(request):
     alert ={}
     alert['messages']=[]
-    alert['st']= "Sucess"
     Estoque = EstoqueModel.Estoque.objects.all()
     if request.method !='POST':
         for product in Estoque:
             if product.quantidade < product.min_prod:
-                product_message = f"Alertamos que o produto {product.produto.nome},esta com quantidade abaixo do esperado em estoque</br>"
+                product_message = f"Alertamos que o produto {product.produto.nome},esta com quantidade abaixo do esperado em estoque"
                 alert['messages'].append(product_message)
-        print(alert)
-        return render (request,'pedidos/EntradaEstoque.html',
-        context={
-            "alert" :alert,
-            "produtos": ProductModel.Product.objects.all()
-        })
+        if len(alert['messages']) < 1:
+            return render (request,'pedidos/EntradaEstoque.html')
+        return render (request,'pedidos/EntradaEstoque.html',context={"alert" :alert,"produtos": ProductModel.Product.objects.all()})
     quantidade = request.POST.get('qtd')
     produtoR = request.POST.get('product')
     try:
