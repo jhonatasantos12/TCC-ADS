@@ -65,3 +65,5 @@ def EditWorker(request,worker_id):
             'resultado':worker
         }
         )
+def opcoes(request):
+    return render(request,'worker/opcoes.html')

@@ -5,4 +5,5 @@ urlpatterns = [
     path('AddWorker',views.AddWorker, name='AddWorker'),
     path('ListWorker',views.ListWorker),
     path('EditWorker/<int:worker_id>',views.EditWorker),
+    path('opcoes',views.opcoes),
 ]

@@ -71,3 +71,5 @@ def GetProduct(request):
         dict['nome'] = x.nome
         lista.append(dict)
     return JsonResponse({'dict':lista})
+def opcoes(request):
+    return render(request,'product/opcoes.html')
