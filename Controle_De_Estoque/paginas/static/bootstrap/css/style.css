@@ -1,3 +1,6 @@
+/*** Fontes de Letras ***/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;1,200;1,300;1,400&display=swap');
+
 /********** Template CSS **********/
 :root {
     --primary: #009CFF;
@@ -278,24 +281,80 @@
 
 /*** Menu Horizontal ***/
 
+#menu-horizontal{
+    display: flex;
+    height: 80px;
+    width: 100%;
+    background-color: #01282e;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px 0 100px;
+    flex-wrap: wrap;
+    font-family: 'Poppins', sans-serif;
+}
+#menu-horizontal .logo{
+    color: white;
+    font-size: 35px;
+    font-weight: 600;
+}
 #menu-horizontal ul{
+    display: flex;
+    flex-wrap: wrap;
     list-style: none;
-    padding: 0;
-    background-color: rgb(75, 75, 77);
 }
 
 #menu-horizontal ul li{
-    display: inline;
+    margin: 0 5px;
 }
 
 #menu-horizontal ul li a{
-    color: #fff;
-    padding: 20px;
-    display: inline-block;
+    color: #f2f2f2;
     text-decoration: none;
-    transition: background .4s;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+#menu-horizontal ul li a.active,
+#menu-horizontal ul li a:hover{
+    background: #f88f06;
 }
 
-#menu-horizontal ul li a:hover{
-    background-color: rgb(24, 139, 233);
+#menu-horizontal .menu-btn i{
+    color: #fff;
+    cursor: pointer;
+    display: none;
+}
+@media (max-width: 920px) {
+    #menu-horizontal .menu-btn i{
+        display: block;
+    }
+    #menu-horizontal ul{
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        background-color: #003840;
+        height: 100vh;
+        width: 100%;
+        text-align: center;
+        display: block;
+        transition: all 0.3s ease;
+    }
+    #menu-horizontal ul.open{
+        left: 0;
+    }
+    #menu-horizontal ul li{
+        width: 100%;
+        margin: 50px 0;
+    }
+    #menu-horizontal ul li a {
+        font-size: 23px;
+    }
+    #menu-horizontal ul li a.active,
+    #menu-horizontal ul li a:hover{
+        background: none;
+        color: #f88f06;
+    }   
 }
