@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group row">
                     <label for="cpf" class="col-md-6 col-form-label text-md-right">CPF</label>
-                    <input value = "{{ resultado.cpf }}" type="text" id="cpf" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px" required>
+                    <input maxlength="11" value = "{{ resultado.cpf }}" type="text" id="cpf" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px" onkeypress="return onlycpf();" required>
                 </div>
                 <div class="form-group row">
                     <label for="PhoneNumber" class="col-md-6 col-form-label text-md-right">Telefone</label>

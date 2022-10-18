@@ -113,11 +113,14 @@
                 color: #f88f06;
             }   
         }
-        
+        .page-background {
+            background: #aad8df;
+            min-height: 100vh;
+            max-height: auto;
+            }
         .Pcontainer {
             width: 100vw;
             height: 100vh;
-            background: #aad8df;
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -145,7 +148,31 @@
             color: black;
         }
     </style>
-
+    <script>
+        function onlynumber(evt) {
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode( key );
+            //var regex = /^[0-9.,]+$/;
+            var regex = /^[0-9.]+$/;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+        function onlycpf(evt) {
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode( key );
+            var regex = /^[0-9]+$/;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+    </script>
+        
+    </script>
     <title>{%block 'titulo'%}{%endblock%}</title>
 </head>
 <body>
@@ -213,8 +240,10 @@
         </ul>
 </nav>
 
-
-{%block 'conteudo'%}{%endblock%}
-
+<div class="page-background">
+    <br>
+    {%block 'conteudo'%}
+    {%endblock%}
+</div>
 </body>
 </html>

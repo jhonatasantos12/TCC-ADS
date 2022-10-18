@@ -18,65 +18,63 @@
         });
 
 </script>
-<main class="login-form">
-    <div class="cotainer">
-        <div class="row justify-content-center Pcontainer">
-            <div class="col-md-8">
-                <div class="box" style="width:auto">
-                    <table class="table table-hover">
-                        <thead>
-                            <th scope="col">Id</td>
-                            <th scope="col">Cliente</td>
-                            <th scope="col">Telefone</td>
-                            <th scope="col">Data</td>
-                            <th scope="col">Status</td>
-                            <th scope="col">Button</th>
-                            <tr>
-                                <td scope="row">{{ Pedido.id }}</td>
-                                <td>{{ Pedido.Cliente.nome }}</td>
-                                <td>{{ Pedido.Cliente.PhoneNumber}}</td>
-                                <td>{{ Pedido.data_registro }}</td>
+
+<div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="box" style="width:auto">
+                <table class="table table-hover">
+                    <thead>
+                        <th scope="col">Id</td>
+                        <th scope="col">Cliente</td>
+                        <th scope="col">Telefone</td>
+                        <th scope="col">Data</td>
+                        <th scope="col">Status</td>
+                        <th scope="col">Button</th>
+                        <tr>
+                            <td scope="row">{{ Pedido.id }}</td>
+                            <td>{{ Pedido.Cliente.nome }}</td>
+                            <td>{{ Pedido.Cliente.PhoneNumber}}</td>
+                            <td>{{ Pedido.data_registro }}</td>
+                            
+                                {% if  IsAlternable  %}3
+                                    <td>
+                                        <form id ='form'>
+                                            {% csrf_token %}
+                                            <select name="newStatus"id = "newStatus" onchange="formsubmit()">
+                                                <option value ="{{ Pedido.Status.id }}">{{ Pedido.Status.description }} </option>
+                                                {% for status in Categoria %}
+                                                    <option value ="{{status.id}}">{{status.description}}</option>
+                                                {% endfor %}
                                 
-                                    {% if  IsAlternable  %}3
+                                            </select>
+                                    </td>
                                         <td>
-                                            <form id ='form'>
-                                                {% csrf_token %}
-                                                <select name="newStatus"id = "newStatus" onchange="formsubmit()">
-                                                    <option value ="{{ Pedido.Status.id }}">{{ Pedido.Status.description }} </option>
-                                                    {% for status in Categoria %}
-                                                        <option value ="{{status.id}}">{{status.description}}</option>
-                                                    {% endfor %}
-                                    
-                                                </select>
-                                        </td>
-                                            <td>
-                                                <button type="submit"   class="buttonC" >
-                                                    Confirmar alteração
-                                                </button>
-                                            </td>
-                                        </form>
-                                    
-                                    {% else %}
-                                        <td>{{ Pedido.Status.description }}</td>,
-                                        <td>
-                                            <button type="button"   class="buttonC" disabled>
+                                            <button type="submit"   class="buttonC" >
                                                 Confirmar alteração
                                             </button>
                                         </td>
-                                    {% endif %} 
-                            </tr>
-                        </thead>
-                    </table>
-                    
-                    {% for produto in ProdutosPedido %}
-                    <div class='row' style="border: 1px solid black; background-color: rgb(106, 106, 209);">
-                        <font color="black">{{ produto.produto.nome}}     {{ produto.quantidade}} </font> 
-                    </div>
-                {% endfor %}
+                                    </form>
+                                
+                                {% else %}
+                                    <td>{{ Pedido.Status.description }}</td>
+                                    <td>
+                                        <button type="button"   class="buttonC" disabled>
+                                            Confirmar alteração
+                                        </button>
+                                    </td>
+                                {% endif %} 
+                        </tr>
+                    </thead>
+                </table>
+                
+                {% for produto in ProdutosPedido %}
+                <div class='row' style="border: 1px solid black; background-color: rgb(106, 106, 209);">
+                    <font color="black">{{ produto.produto.nome}}     {{ produto.quantidade}} </font> 
                 </div>
+            {% endfor %}
             </div>
         </div>
     </div>
-    </div>
-</main>
+</div>
 {%endblock%}
