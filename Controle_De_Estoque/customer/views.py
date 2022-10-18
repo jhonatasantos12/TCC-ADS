@@ -76,3 +76,5 @@ def GetAll(request):
         #dict['Dt_Nascimento'] = x.Dt_Nascimento
         lista.append(dict)
     return JsonResponse({'dict':lista})    
+def opcoes(request):
+    return render(request,'customer/opcoes.html')

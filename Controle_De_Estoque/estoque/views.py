@@ -3,6 +3,7 @@ from django.shortcuts import render
 from pedidos.models import ProdutoPedido
 from .models import Estoque as MEstoque 
 from product import models as ModelProduto
+
 # Create your views here.
 def estoque(request):
     Estoque = MEstoque.objects.all()
@@ -52,3 +53,6 @@ def limite(request,estoque_id):
                 'estoque': estoque,
             }
         )
+
+def opcoes(request):
+    return render(request,'estoque/opcoes.html')
