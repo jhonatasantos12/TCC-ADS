@@ -16,7 +16,7 @@
                             <th scope="col">Telefone</td>
                             <th scope="col">Data_de_Nascimento</td>
                             <th scope="col">Editar</td>
-                            {% for Customer in resultado %}
+                            {% for Customer in customers %}
                             <tr>
                                 <td scope="row">{{Customer.id}}</td>
                                 <td>{{Customer.nome}}</td>
@@ -27,10 +27,23 @@
                                 <td><a href="EditCustomer/{{ Customer.id }}"><button   class="buttonC">editar</button></td></a>
                             </tr>
                             {% endfor %}
-                        
                         </thead>
-                
                     </table>
+                    <nav aria-label="Navegação de página exemplo">
+                        <ul class="pagination">
+                            {% for pagina in customers.paginator.page_range %}
+                                {% if  customers.number == pagina %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?cliente={{pagina}}">{{pagina}}</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?cliente={{pagina}}">{{pagina}}</a>
+                                </li>
+                                {%endif%}
+                            {% endfor %}
+                        </ul>
+                      </nav>
                 </div>
             </div>
         </div>

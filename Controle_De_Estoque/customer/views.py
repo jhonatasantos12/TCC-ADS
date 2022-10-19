@@ -1,7 +1,7 @@
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from .models import Customer
-
+from django.core.paginator import Paginator
 # Create your views here.
 def AddCustomer(request):
     if request.method != 'POST':
@@ -62,7 +62,10 @@ def EditCustomer(request,customer_id):
             )
 def ListCustomer(request):
     customers = Customer.objects.all()
-    return render(request,'customer/ListCustomer.html', {'resultado':customers})
+    paginator = Paginator(customers,5)
+    page = request.GET.get("cliente")
+    customers = paginator.get_page(page)
+    return render(request,'customer/ListCustomer.html', {'customers':customers})
     
 def GetAll(request):
     lista =[]
