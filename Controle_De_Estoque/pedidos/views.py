@@ -1,15 +1,15 @@
-from math import prod
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from accounts.views import login
 from product import models as ProductModel
 from estoque import models as EstoqueModel
 from customer import models as CustomerModel
 from pedidos import models as PedidosModel
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
+@login_required(redirect_field_name="register")
 def GetPedido(request,pedido_id):
     if request.method !='POST':
         Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)

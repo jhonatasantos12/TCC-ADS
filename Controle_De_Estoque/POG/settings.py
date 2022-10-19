@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'customer.apps.CustomerConfig',
     'estoque.apps.EstoqueConfig',
     'pedidos.apps.PedidosConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
