@@ -1,0 +1,75 @@
+{%extends 'base.html'%}
+
+{%block 'titulo'%}Gerar Pedido {%endblock%}
+{%block 'conteudo'%}
+<script>
+    function aumentaValor(parm,qtd){
+            var valor=document.getElementById(parm).value;
+            valor++;
+            document.getElementById(parm,qtd).value=valor;
+        }
+        function diminuiValor(parm,qtd){
+            var valor=document.getElementById(parm).value;
+            if (valor < 0){
+                document.getElementById(parm).value=0;      
+            }if (valor < qtd){
+                document.getElementById(parm).value=100;      
+            }else{
+            valor--;
+            document.getElementById(parm).value=valor;
+            }
+        }
+        
+</script>
+<div class="Pcontainer">
+    <div class="row g-6">
+        <div class="form-group box">
+            <div> 
+                {% if request.POST.cliente %}
+                    Você está atendendo o Cliente : {{Customer.nome}} {{Customer.last_name}}<br>
+                    <a href="/pedidos/gerarPedido">alterar cliente </a>
+                        <div>
+                        <form id ="form" action="{% url 'GerarPedido' %}" method="post">
+                            <input type="hidden"  type="text" name="user" value="{{user}}">
+                            {% csrf_token %}
+                            <input type="hidden"  type="number" name="cliente" value="{{request.POST.cliente}}">
+                            <table class="form-group table table-hover">
+                                <thead>
+                                    {% for product in Estoque %}
+                                    <tr>
+                                        <td scope="row">{{ product.produto.id }}</td>
+                                        <td>{{ product.produto.nome }}</td>
+                                        <td>{{product.quantidade}}</td>
+                                        <td>
+                                            <div>
+                                                <button type="button" class="btn btn-primary" onclick="diminuiValor('{{product.produto.id }}')">-</button>
+                                                <input value="0" maxlength ="{{product.quantidade}}" style="width:40px;height:40px;" type="number"name="{{product.produto.id}}" id="{{product.produto.id}}">
+                                                <button  type="button" class="btn btn-primary" onclick="aumentaValor('{{product.produto.id }}')">+</button>
+                                            </div>
+                                        </td>
+                                    </tr>        
+                                    {% endfor %}
+                                </thead>
+                            </table>
+                            <button type="submit"  class="buttonC" >Confirmar pedido</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <form id ="form" action="{% url 'GerarPedido' %}" method="post">
+                        <input type="hidden"  type="text" name="user" value="{{user}}">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <select name="cliente" id="cliente">Escolha o cliente
+                            {% for customer in Customers %}
+                                <option value ="{{customer.id}}">{{customer.nome}} {{customer.last_name}}</option>
+                            {% endfor %}
+                            </select>
+                    </div>
+                        <button type="submit"  class="buttonC" >Escolher Cliente</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -10,12 +10,10 @@ class Categoria(models.Model):
     description = models.CharField(max_length=125) 
 
 class Pedido(models.Model):
-    
     nr_pedido = models.IntegerField(null=True)
     Cliente = models.ForeignKey(CustomerModel.Customer,on_delete=models.PROTECT)
     Atendente = models.ForeignKey(WorkerModel.Worker,on_delete=models.PROTECT,null=True)
     Estoquista = models.CharField(max_length=255,null=True)
-    #Status = models.CharField(max_length=125) 
     Status = models.ForeignKey(Categoria,on_delete=models.PROTECT,null=True)
     data_registro = models.DateTimeField(auto_now_add=True)
     

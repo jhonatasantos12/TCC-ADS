@@ -6,6 +6,8 @@ from product import models as ProductModel
 from estoque import models as EstoqueModel
 from customer import models as CustomerModel
 from pedidos import models as PedidosModel
+from worker  import models as WokerModel
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -137,4 +139,61 @@ def entrada(request):
         tem.quantidade  += int(quantidade)
         tem.save()
     return HttpResponse(produtoR,quantidade)
-    
+
+
+@login_required()
+def GerarPedido(request):
+    if request.method !='POST':
+        return render(request,'pedidos/GerarPedido.html',
+        context={
+            "Customers": CustomerModel.Customer.objects.all(),
+            "Estoque": EstoqueModel.Estoque.objects.all(),
+        })
+    cliente = request.POST.get('cliente')
+    user = request.POST.get('user')
+    UserModel= User.objects.get(username = user)
+    usuario =  WokerModel.Worker.objects.get(usuario = UserModel)
+    #print(usuario.usuario.name)
+    if cliente != None:
+        Estoque = EstoqueModel.Estoque.objects.all()
+        ProdPedido= {}
+        ProdPedido['Produtos'] ={}
+        ProdPedido['Cliente'] =  cliente
+        for x in Estoque:
+            try:
+                produto = request.POST.get(str(x.produto.id))
+            except:
+                produto = None
+            if produto != None and int(produto) >0:
+                limiteEstq = EstoqueModel.Estoque.objects.get(produto = x.produto.id)
+                if int(produto) > limiteEstq.quantidade:
+                    return HttpResponse('Quantidade informada Indisponivel')
+                
+                ProdPedido['Produtos'][str(x.produto.id)] = {}
+                ProdPedido['Produtos'][str(x.produto.id)]['Id'] = str(x.produto.id)
+                ProdPedido['Produtos'][str(x.produto.id)]['NameProduct'] = str(x.produto.nome)
+                ProdPedido['Produtos'][str(x.produto.id)]['Quantidade'] = produto
+        if  ProdPedido['Produtos']:
+            ProdPedido['Status'] = "Em Separação"
+            modelcliente = CustomerModel.Customer.objects.get(id = ProdPedido['Cliente'])
+            status = PedidosModel.Categoria.objects.get(id = 1)
+            pedido = PedidosModel.Pedido.objects.create(Cliente = modelcliente, Status= status,Atendente= usuario)
+            pedido.save()
+            for x in ProdPedido['Produtos']:
+                produto = ProductModel.Product.objects.get(id= x)
+                ProdutoPedido = PedidosModel.ProdutoPedido.objects.create(pedido = pedido, produto=produto,quantidade=ProdPedido['Produtos'][str(x)]['Quantidade'])
+                ProdutoPedido.save()
+                Estoque = EstoqueModel.Estoque.objects.get(produto = produto)
+                Estoque.quantidade -= int(ProdPedido['Produtos'][str(x)]['Quantidade']) 
+                Estoque.save()
+        return render (request,'pedidos/GerarPedido.html',
+            context={
+                "Customers": CustomerModel.Customer.objects.all(),
+                "Estoque": EstoqueModel.Estoque.objects.all(),
+                "Customer":CustomerModel.Customer.objects.get(id = cliente)
+            })
+    return render (request,'pedidos/GerarPedido.html',
+     context={
+            "Customers": CustomerModel.Customer.objects.all(),
+            "Estoque": EstoqueModel.Estoque.objects.all(),
+        })

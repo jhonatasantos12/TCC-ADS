@@ -20,8 +20,8 @@
                             {% for Worker in Workers%}
                             <tr>
                                 <td scope="row">{{Worker.id}}</td>
-                                <td>{{Worker.nome}}</td>
-                                <td>{{Worker.last_name}}</td>
+                                <td>{{Worker.usuario.first_name}}</td>
+                                <td>{{Worker.usuario.last_name}}</td>
                                 <td>{{Worker.cpf}}</td>
                                 <td>{{Worker.PhoneNumber}}</td>
                                 <td>{{Worker.office}}</td>
