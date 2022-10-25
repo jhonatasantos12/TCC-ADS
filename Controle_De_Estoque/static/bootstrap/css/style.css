@@ -275,3 +275,117 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+/*** Menu Horizontal ***/
+
+#menu-horizontal{
+    display: flex;
+    height: 80px;
+    width: 100%;
+    background-color: #01282e;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px 0 100px;
+    flex-wrap: wrap;
+    font-family: 'Poppins', sans-serif;
+}
+#menu-horizontal .logo{
+    color: white;
+    font-size: 35px;
+    font-weight: 600;
+}
+#menu-horizontal ul{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+#menu-horizontal ul li{
+    margin: 0 5px;
+}
+
+#menu-horizontal ul li a{
+    color: #f2f2f2;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+#menu-horizontal ul li a.active,
+#menu-horizontal ul li a:hover{
+    background: #f88f06;
+}
+
+#menu-horizontal .menu-btn i{
+    color: #fff;
+    cursor: pointer;
+    display: none;
+}
+@media (max-width: 920px) {
+    #menu-horizontal .menu-btn i{
+        display: block;
+    }
+    #menu-horizontal ul{
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        background-color: #003840;
+        height: 100vh;
+        width: 100%;
+        text-align: center;
+        display: block;
+        transition: all 0.3s ease;
+    }
+    #menu-horizontal ul.open{
+        left: 0;
+    }
+    #menu-horizontal ul li{
+        width: 100%;
+        margin: 50px 0;
+    }
+    #menu-horizontal ul li a {
+        font-size: 23px;
+    }
+    #menu-horizontal ul li a.active,
+    #menu-horizontal ul li a:hover{
+        background: none;
+        color: #f88f06;
+    }   
+}
+.page-background {
+    background: #aad8df;
+    min-height: 100vh;
+    max-height: auto;
+    }
+.Pcontainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    }
+    .box {
+        width: 500px;
+        height: auto;
+        background: rgb(255, 255, 255);
+        border-radius: 10px;
+        border:solid white 30px;
+        }
+.buttonC {
+    background-color: #47757c;
+    color: white;
+    padding: 6px 12px;
+    margin: 8px 0;
+    cursor: pointer;
+    border-radius: 10px;
+    border-color: transparent;
+    width: 100%;
+}
+.buttonC:hover{
+    background-color: #f88f06;
+    color: black;
+}

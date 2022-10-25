@@ -32,7 +32,8 @@ def login(request):
         return redirect('pedidos/opcoes')
 def logout(request):
     auth.logout(request)
-    return redirect('register')
+    return render(request,'pedidos/opcoes.html',{
+        })
 
 def register(request):
     alert ={} 
