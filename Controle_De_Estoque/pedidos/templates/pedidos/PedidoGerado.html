@@ -26,15 +26,22 @@
                 <table class="table table-hover">
                     <thead>
                         <th scope="col">Id</td>
-                        <th scope="col">Cliente</td>
-                        <th scope="col">Telefone</td>
+                            
+                        {% if Pedido.Cliente %}
+                            <th scope="col">Cliente</td>
+                            <th scope="col">Telefone</td>
+                        {% else %}
+                        {% endif%}
                         <th scope="col">Data</td>
                         <th scope="col">Status</td>
                         <th scope="col">Button</th>
                         <tr>
-                            <td scope="row">{{ Pedido.id }}</td>
-                            <td>{{ Pedido.Cliente.nome }}</td>
-                            <td>{{ Pedido.Cliente.PhoneNumber}}</td>
+                            <td scope="row">{{ Pedido.id }}</td>   
+                            {% if Pedido.Cliente %}
+                                <td>{{ Pedido.Cliente.nome }}</td>
+                                <td>{{ Pedido.Cliente.PhoneNumber}}</td>
+                            {% else %}
+                            {% endif%}
                             <td>{{ Pedido.data_registro }}</td>
                             
                                 {% if  IsAlternable  %}
@@ -67,12 +74,15 @@
                         </tr>
                     </thead>
                 </table>
-                
+                {% if Pedido.Atendente %}
+                    Esse pedido foi realizado pelo usuario : {{ Pedido.Atendente.usuario }}
+                {% endif %}
                 {% for produto in ProdutosPedido %}
                 <div class='row' style="border: 1px solid black; background-color: rgb(106, 106, 209);">
                     <font color="black">{{ produto.produto.nome}}     {{ produto.quantidade}} </font> 
                 </div>
             {% endfor %}
+            
             </div>
         </div>
     </div>

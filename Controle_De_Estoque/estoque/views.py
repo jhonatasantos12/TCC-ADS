@@ -3,10 +3,14 @@ from django.shortcuts import render
 from pedidos.models import ProdutoPedido
 from .models import Estoque as MEstoque 
 from product import models as ModelProduto
+from django.core.paginator import Paginator
 
 # Create your views here.
 def estoque(request):
     Estoque = MEstoque.objects.all()
+    paginator = Paginator(Estoque,5)
+    page = request.GET.get("estoque")
+    Estoque = paginator.get_page(page)
     return render(
         request,
         'estoque/ListEstoque.html',

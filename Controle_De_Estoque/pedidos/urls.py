@@ -7,6 +7,7 @@ urlpatterns = [
     path('ListPedidos',views.Listadepedidos,name ='ListPedidos'),
     path('PedidoNr/<int:pedido_id>',views.GetPedido),
     path('opcoes',views.opcoes),
+    path('gerarEntrada',views.GerarEntrada, name='GerarEntrada'),
     path('gerarPedido',views.GerarPedido, name ="GerarPedido")
    
 ] 

@@ -1,7 +1,11 @@
-from django.http import Http404, JsonResponse
+from attr import validate
+from django.http import  JsonResponse
 from django.shortcuts import render
 from .models import Customer
 from django.core.paginator import Paginator
+from utils.functions import validate_cpf
+from utils import functions
+
 # Create your views here.
 def AddCustomer(request):
     if request.method != 'POST':
@@ -9,11 +13,27 @@ def AddCustomer(request):
     nome = request.POST.get('name')
     sobrenome = request.POST.get('last_name')
     cpf = request.POST.get('cpf')
-    telefone = request.POST.get('PhoneNumber')
+    telefone = request.POST.get('phoneNumber')
     Dt_Nascimento = request.POST.get('bdaytime')
-
+    validatecpf = validate_cpf(cpf)
+    if validatecpf == False:
+        alert = functions.Alerts.alertError("Erro","Digite um CPF valido")
+        return render(
+        request,
+        'customer/AddCustomer.html',
+        context={
+            "alert": alert
+            }
+        )  
     if Customer.objects.filter(cpf = cpf ).exists():
-        return Http404
+        alert = functions.Alerts.alertError("Erro","Já existe um cliente cadastrado com esse CPF")
+        return render(
+        request,
+        'customer/AddCustomer.html',
+        context={
+            "alert": alert
+            }
+        )  
     Cliente = Customer.objects.create(nome = nome,last_name=sobrenome,cpf=  cpf ,PhoneNumber = telefone, Dt_Nascimento = Dt_Nascimento)
     Cliente.save()
     alert={}
@@ -75,8 +95,6 @@ def GetAll(request):
         dict['nome'] = x.nome
         dict['last_name'] = x.last_name
         dict['cpf'] = x.cpf
-        #dict['PhoneNumber'] = x.PhoneNumber
-        #dict['Dt_Nascimento'] = x.Dt_Nascimento
         lista.append(dict)
     return JsonResponse({'dict':lista})    
 def opcoes(request):

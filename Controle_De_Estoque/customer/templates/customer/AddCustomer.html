@@ -8,27 +8,27 @@
                 {% csrf_token %}
                 <div class="form-group row">
                     <label for="name" class="col-md-6 col-form-label text-md-right">Nome</label>
-                    <input type="text" minlength="1" id="name" class="form-control justify-content:center col-md-2" name="name" required>
+                    <input value="{{request.POST.name}}"type="text" minlength="1" id="name" class="form-control justify-content:center col-md-2" name="name" required>
                     
                 </div>
                 <div class="form-group row">
                     <label for="last_name" class="col-md-6 col-form-label text-md-right">Sobrenome</label>
-                    <input type="text" minlength="1" id="last_name" class="form-control justify-content:center col-md-2" name="last_name" class="width:300px" required>
+                    <input value="{{request.POST.last_name}}" type="text" minlength="1" id="last_name" class="form-control justify-content:center col-md-2" name="last_name" class="width:300px" required>
                     
                 </div>
                 <div class="form-group row">
                     <label for="cpf" class="col-md-6 col-form-label text-md-right">CPF</label>
-                    <input  maxlength="11" type="text" minlength="1" id="cpf" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px"  onkeypress="return onlycpf();" required>
+                    <input value="{{request.POST.cpf}}" maxlength="11" type="text" minlength="1" id="cpf" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px"  onkeypress="return onlycpf();" required>
                     
                 </div>
                 <div class="form-group row">
-                    <label for="PhoneNumber" class="col-md-6 col-form-label text-md-right">Telefone</label>
-                    <input type="text" minlength="1" id="PhoneNumber" class="form-control justify-content:center col-md-2" name="PhoneNumber" class="width:300px" required>
+                    <label for="phoneNumber" class="col-md-6 col-form-label text-md-right">Telefone</label>
+                    <input value="{{request.POST.phoneNumber}}" type="text" minlength="1" id="phoneNumber" class="form-control justify-content:center col-md-2" name="PhoneNumber" class="width:300px" required>
                     
                 </div>
                 <div class="form-group row">
                     <label for="bdaytime" class="col-md-6 col-form-label text-md-right">Data_de_Nascimento</label>
-                    <input type="date" minlength="1" id="bdaytime" class="form-control justify-content:center col-md-2" name="bdaytime" class="width:300px" required>
+                    <input type="date" value="{{request.POST.bdaytime}}" minlength="1" id="bdaytime" class="form-control justify-content:center col-md-2" name="bdaytime" class="width:300px" required>
                     
                 </div>
                 <div class="form-group row">

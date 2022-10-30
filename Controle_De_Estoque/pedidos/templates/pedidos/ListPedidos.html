@@ -1,37 +1,49 @@
 {%extends 'base.html'%}
 {%block 'titulo'%}Lista de Produts.{%endblock%}
 {%block 'conteudo'%}
-<main class="login-form">
-    <div>
-        <div class="row justify-content-center Pcontainer">
-            <div class="col-md-8">
-                <div class="box" style="width:auto">
-                    <table class="table table-hover">
-                        <thead>
-                            <th scope="col">Id</td>
-                            <th scope="col">Cliente</td>
-                            <th scope="col">Telefone</td>
-                            <th scope="col">Data</td>
-                            <th scope="col">Status</td>
-                            <th scope="col">VerDetalhes</td>                            
-                            {% for pedido in Pedidos %}
-                            <tr>
-                                <td scope="row">{{ pedido.id }}</td>
-                                <td>{{ pedido.Cliente.nome }}</td>
-                                <td>{{ pedido.Cliente.PhoneNumber}}</td>
-                                <td>{{ pedido.data_registro }}</td>
-                                <td>{{ pedido.Status.description }}</td>
-                                <td><a href="PedidoNr/{{ pedido.id }}"><button  class="buttonC">Ver</button></td></a>
-                            </tr>
-                            {% endfor %}
-                        
-                        </thead>
-                
-                    </table>
-                </div>
+<div>
+    <div class="row justify-content-center Pcontainer">
+        <div class="col-md-8">
+            <div class="box" style="width:auto">
+                <table class="table table-hover">
+                    <thead>
+                        <th scope="col">Id</td>
+                        <th scope="col">Cliente</td>
+                        <th scope="col">Telefone</td>
+                        <th scope="col">Data</td>
+                        <th scope="col">Status</td>
+                        <th scope="col">VerDetalhes</td>                            
+                        {% for pedido in Pedidos %}
+                        <tr>
+                            <td scope="row">{{ pedido.id }}</td>
+                            <td>{{ pedido.Cliente.nome }}</td>
+                            <td>{{ pedido.Cliente.PhoneNumber}}</td>
+                            <td>{{ pedido.data_registro }}</td>
+                            <td>{{ pedido.Status.description }}</td>
+                            <td><a href="PedidoNr/{{ pedido.id }}"><button  class="buttonC">Ver</button></td></a>
+                        </tr>
+                        {% endfor %}
+                    
+                    </thead>
+            
+                </table>
+                <nav aria-label="Navegação de página exemplo">
+                    <ul class="pagination">
+                        {% for pagina in Pedidos.paginator.page_range %}
+                            {% if  Pedidos.number == pagina %}
+                            <li class="page-item active">
+                                <a class="page-link" href="?pedidos={{pagina}}">{{pagina}}</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?pedidos={{pagina}}">{{pagina}}</a>
+                            </li>
+                            {%endif%}
+                        {% endfor %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
-    </div>
-</main>
+</div>
 {%endblock%}

@@ -1,34 +1,45 @@
 {%extends 'base.html'%}
 {%block 'titulo'%}Lista de Produts.{%endblock%}
 {%block 'conteudo'%}
-<main class="login-form">
-    <div>
-        <div class="row justify-content-center Pcontainer">
-            <div class="col-md-8">
-                <div class="box" style="width:auto">
-                    <a  href="/product/AddProduct"><button class="buttonC" >Adicionar Novo Produto</button> </a>
-                    <table class="table table-hover">
-                        <thead>
-                            <th scope="col">Id</td>
-                            <th scope="col">Name</td>
-                            <th scope="col">Valor</td>
-                            <th scope="col">Editar</td>
-                            {% for Product in Products %}
-                            <tr>
-                                <td scope="row">{{ Product.id }}</td>
-                                <td>{{ Product.nome }}</td>
-                                <td>{{ Product.valor }}</td>
-                                <td><a href="EditProduct/{{ Product.id }}"><button   class="buttonC">editar</button></td></a>
-                            </tr>
-                            {% endfor %}
-                        
-                        </thead>
-                
-                    </table>
-                </div>
+<div>
+    <div class="row justify-content-center Pcontainer">
+        <div class="col-md-8">
+            <div class="box" style="width:auto">
+                <a  href="/product/AddProduct"><button class="buttonC" >Adicionar Novo Produto</button> </a>
+                <table class="table table-hover">
+                    <thead>
+                        <th scope="col">Id</td>
+                        <th scope="col">Name</td>
+                        <th scope="col">Valor</td>
+                        <th scope="col">Editar</td>
+                        {% for Product in Products %}
+                        <tr>
+                            <td scope="row">{{ Product.id }}</td>
+                            <td>{{ Product.nome }}</td>
+                            <td>{{ Product.valor }}</td>
+                            <td><a href="EditProduct/{{ Product.id }}"><button   class="buttonC">editar</button></td></a>
+                        </tr>
+                        {% endfor %}
+                    
+                    </thead>
+                </table>
+                <nav aria-label="Navegação de página exemplo">
+                    <ul class="pagination">
+                        {% for pagina in Products.paginator.page_range %}
+                            {% if  Products.number == pagina %}
+                            <li class="page-item active">
+                                <a class="page-link" href="?produtos={{pagina}}">{{pagina}}</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?produtos={{pagina}}">{{pagina}}</a>
+                            </li>
+                            {%endif%}
+                        {% endfor %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
-    </div>
-</main>
+</div>
 {%endblock%}

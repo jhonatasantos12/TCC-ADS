@@ -9,6 +9,8 @@ from pedidos import models as PedidosModel
 from worker  import models as WokerModel
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+
+from django.core.paginator import Paginator
 # Create your views here.
 
 @login_required(redirect_field_name="register")
@@ -51,9 +53,14 @@ def GetPedido(request,pedido_id):
 
 
 def Listadepedidos(request):
+    
+    pedidos = PedidosModel.Pedido.objects.all().order_by('-data_registro')
+    paginator = Paginator(pedidos,5)
+    page = request.GET.get("pedidos")
+    pedidos = paginator.get_page(page)
     return render(request,'pedidos/ListPedidos.html',
     context={
-        "Pedidos": PedidosModel.Pedido.objects.all(),
+        "Pedidos":pedidos ,
         
     }) 
 def pedidos(request):
@@ -167,17 +174,43 @@ def GerarPedido(request):
             if produto != None and int(produto) >0:
                 limiteEstq = EstoqueModel.Estoque.objects.get(produto = x.produto.id)
                 if int(produto) > limiteEstq.quantidade:
-                    return HttpResponse('Quantidade informada Indisponivel')
+                    alert={}
+                    alert['type']=1
+                    alert['title']="Falha"
+                    alert['text']="Você informou uma quantidade maior do que a disponivel em estoque "
+                    alert['icon']="error"
+                    return render (request,'pedidos/GerarPedido.html',
+                    context={
+                        "Customers": CustomerModel.Customer.objects.all(),
+                        "Estoque": EstoqueModel.Estoque.objects.all(),
+                        "Customer":CustomerModel.Customer.objects.get(id = cliente),
+                        "alert":alert
+                        })
                 
                 ProdPedido['Produtos'][str(x.produto.id)] = {}
                 ProdPedido['Produtos'][str(x.produto.id)]['Id'] = str(x.produto.id)
                 ProdPedido['Produtos'][str(x.produto.id)]['NameProduct'] = str(x.produto.nome)
                 ProdPedido['Produtos'][str(x.produto.id)]['Quantidade'] = produto
         if  ProdPedido['Produtos']:
+            tipo_Pedido = request.POST.get('tp_Pedido')
+            if tipo_Pedido == None:
+                alert={}
+                alert['type']=1
+                alert['title']="Falha"
+                alert['text']="O pedido precisa ser registrado como venda ou locação"
+                alert['icon']="error"
+                return render (request,'pedidos/GerarPedido.html',
+                context={
+                    "Customers": CustomerModel.Customer.objects.all(),
+                    "Estoque": EstoqueModel.Estoque.objects.all(),
+                    "Customer":CustomerModel.Customer.objects.get(id = cliente),
+                    "alert":alert
+                    })
             ProdPedido['Status'] = "Em Separação"
             modelcliente = CustomerModel.Customer.objects.get(id = ProdPedido['Cliente'])
             status = PedidosModel.Categoria.objects.get(id = 1)
-            pedido = PedidosModel.Pedido.objects.create(Cliente = modelcliente, Status= status,Atendente= usuario)
+            tipo_Pedido=int(tipo_Pedido)
+            pedido = PedidosModel.Pedido.objects.create(Cliente = modelcliente, Status= status,Atendente= usuario,tp_Pedido=tipo_Pedido)
             pedido.save()
             for x in ProdPedido['Produtos']:
                 produto = ProductModel.Product.objects.get(id= x)
@@ -192,8 +225,60 @@ def GerarPedido(request):
                 "Estoque": EstoqueModel.Estoque.objects.all(),
                 "Customer":CustomerModel.Customer.objects.get(id = cliente)
             })
+        
     return render (request,'pedidos/GerarPedido.html',
      context={
             "Customers": CustomerModel.Customer.objects.all(),
-            "Estoque": EstoqueModel.Estoque.objects.all(),
+            "Estoque": EstoqueModel.Estoque.objects.all(),  
         })
+def GerarEntrada(request):
+    alert ={}
+    alert['messages']=[]
+    Estoque = EstoqueModel.Estoque.objects.all()
+    if request.method !='POST':
+        for product in Estoque:
+            if product.quantidade < product.min_prod:
+                product_message = f"Alertamos que o produto {product.produto.nome},esta com quantidade abaixo do esperado em estoque"
+                alert['messages'].append(product_message)
+        if len(alert['messages']) < 1:
+            return render (request,'pedidos/GerarEntrada.html',context={
+                "Estoque": EstoqueModel.Estoque.objects.all()
+            })
+        return render (request,'pedidos/GerarEntrada.html',context={
+            "alert" :alert,
+            "Estoque": EstoqueModel.Estoque.objects.all()
+            })
+    ProdPedido= {}
+    ProdPedido['Produtos'] ={}
+    user = request.POST.get('user')
+    UserModel= User.objects.get(username = user)
+    usuario =  WokerModel.Worker.objects.get(usuario = UserModel)
+    for x in Estoque:
+        try:
+            produtoQtd = request.POST.get(str(x.produto.id))
+        except:
+            produtoQtd = None
+        ProdPedido['Produtos'][str(x.produto.id)] = {}
+        ProdPedido['Produtos'][str(x.produto.id)]['Id'] = str(x.produto.id)
+        ProdPedido['Produtos'][str(x.produto.id)]['NameProduct'] = str(x.produto.nome)
+        ProdPedido['Produtos'][str(x.produto.id)]['Quantidade'] = produtoQtd
+    if  ProdPedido['Produtos']:
+        status = PedidosModel.Categoria.objects.get(id = 5)
+        pedido = PedidosModel.Pedido.objects.create(Status= status,Atendente= usuario,tp_Pedido=1)
+        pedido.save()
+        for x in ProdPedido['Produtos']:
+            produto = ProductModel.Product.objects.get(id= x)
+            ProdutoPedido = PedidosModel.ProdutoPedido.objects.create(pedido = pedido, produto=produto,quantidade=ProdPedido['Produtos'][str(x)]['Quantidade'])
+            ProdutoPedido.save()
+            Estoque = EstoqueModel.Estoque.objects.get(produto = produto)
+            Estoque.quantidade += int(ProdPedido['Produtos'][str(x)]['Quantidade']) 
+            Estoque.save()
+    alert={}
+    alert['type']=1
+    alert['title']="Sucesso"
+    alert['text']=f"{UserModel} Entrada Registrada"
+    alert['icon']="success"
+    return render (request,'pedidos/GerarEntrada.html',context={
+            "alert" :alert,
+            "Estoque": EstoqueModel.Estoque.objects.all()
+            })

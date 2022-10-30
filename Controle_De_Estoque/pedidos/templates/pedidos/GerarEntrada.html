@@ -29,9 +29,11 @@
                     <form id ="form" action="{% url 'GerarEntrada' %}" method="post">
                         <input type="hidden"  type="text" name="user" value="{{user}}">
                         {% csrf_token %}
-                        <input type="hidden"  type="number" name="cliente" value="{{request.POST.cliente}}">
                         <table class="form-group table table-hover">
                             <thead>
+                                
+                                <th scope="col">produto</th>
+                                <th scope="col">Qtd Em estoque</th>
                                 {% for product in Estoque %}
                                 <tr>
                                     <td scope="row">{{ product.produto.id }}</td>

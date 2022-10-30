@@ -40,6 +40,21 @@
                         </thead>
                 
                     </table>
+                    <nav aria-label="Navegação de página exemplo">
+                        <ul class="pagination">
+                            {% for pagina in Estoque.paginator.page_range %}
+                                {% if  Estoque.number == pagina %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?estoque={{pagina}}">{{pagina}}</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?estoque={{pagina}}">{{pagina}}</a>
+                                </li>
+                                {%endif%}
+                            {% endfor %}
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
