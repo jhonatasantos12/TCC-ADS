@@ -6,16 +6,6 @@
         <div class="box">
             <form action="{{ resultado.id }}" method="post">{% csrf_token %}
                 <div class="form-group row">
-                    <label for="name" class="col-md-6 col-form-label text-md-right">Nome</label>
-                    <input value= "{{resultado.nome}}"type="text" minlength="1" id="name" class="form-control justify-content:center col-md-2" name="name" required>
-                    
-                </div>
-                <div class="form-group row">
-                    <label for="last_name" class="col-md-6 col-form-label text-md-right">Sobrenome</label>
-                    <input value = "{{ resultado.last_name }}"type="text" minlength="1" id="last_name" class="form-control justify-content:center col-md-2" name="last_name" class="width:300px" required>
-                    
-                </div>
-                <div class="form-group row">
                     <label for="cpf" class="col-md-6 col-form-label text-md-right">CPF</label>
                     <input maxlength="11" value = "{{ resultado.cpf }}" type="text" id="cpf" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px" onkeypress="return onlycpf();"required>
                     

@@ -2,25 +2,6 @@
 
 {%block 'titulo'%}Gerar Pedido {%endblock%}
 {%block 'conteudo'%}
-<script>
-    function aumentaValor(parm,qtd){
-            var valor=document.getElementById(parm).value;
-            valor++;
-            document.getElementById(parm,qtd).value=valor;
-        }
-        function diminuiValor(parm,qtd){
-            var valor=document.getElementById(parm).value;
-            if (valor < 0){
-                document.getElementById(parm).value=0;      
-            }if (valor < qtd){
-                document.getElementById(parm).value=100;      
-            }else{
-            valor--;
-            document.getElementById(parm).value=valor;
-            }
-        }
-        
-</script>
 <div class="Pcontainer">
     <div class="row g-6">
         <div class="form-group box">
@@ -30,10 +11,14 @@
                     <a href="/pedidos/gerarPedido">alterar cliente </a>
                         <div>
                         <form id ="form" action="{% url 'GerarPedido' %}" method="post">
+
+                            <input type="radio" id="tp_Pedido" name="tp_Pedido" value="1">
+                                <label >Venda</label>
+                                <br>
+
                             <input type="radio" id="tp_Pedido" name="tp_Pedido" value="2">
-                                <label for="tp_Pedido">Venda</label><br>
-                            <input type="radio" id="tp_Pedido" name="tp_Pedido" value="3">
-                                <label for="tp_Pedido">Locação</label><br>
+                                <label>Locação</label>
+                                <br>
                             <input type="hidden"  type="text" name="user" value="{{user}}">
                             {% csrf_token %}
                             <input type="hidden"  type="number" name="cliente" value="{{request.POST.cliente}}">
@@ -48,7 +33,7 @@
                                         <td>
                                             <div>
                                                 <button type="button" class="btn btn-primary" onclick="diminuiValor('{{product.produto.id }}')">-</button>
-                                                <input value="0" maxlength ="{{product.quantidade}}" style="width:40px;height:40px;" type="number"name="{{product.produto.id}}" id="{{product.produto.id}}">
+                                                <input value="0" maxlength ="{{product.quantidade}}" style="width:52px;height:40px;" type="number"name="{{product.produto.id}}" id="{{product.produto.id}}" onkeypress="return onlycpf()">
                                                 <button  type="button" class="btn btn-primary" onclick="aumentaValor('{{product.produto.id }}')">+</button>
                                             </div>
                                         </td>

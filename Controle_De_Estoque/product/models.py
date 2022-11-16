@@ -6,7 +6,7 @@ from django.utils import timezone
 class Product(models.Model):
     nome = models.CharField(max_length=200)
     valor = models.FloatField()
-
+    data_registro = models.DateTimeField(auto_now_add=True)
     def GetAll(self):
         return  {
             'nome':self.nome,

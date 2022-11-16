@@ -8,3 +8,4 @@ class Customer(models.Model):
     cpf = models.CharField(max_length=11)
     PhoneNumber = models.CharField(max_length=13)
     Dt_Nascimento = models.DateField()
+    data_registro = models.DateTimeField(auto_now_add=True,null=True)

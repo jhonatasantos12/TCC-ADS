@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from worker import models as  WorkerModel
+from utils import functions 
 # Create your views here.
 
 
@@ -29,11 +30,13 @@ def login(request):
         })
     else:
         auth.login(request,user)
-        return redirect('pedidos/opcoes')
+        return render(request,'accounts/login.html',{
+        }) 
 def logout(request):
     auth.logout(request)
-    return render(request,'pedidos/opcoes.html',{
+    return render(request,'accounts/login.html',{
         })
+        
 
 def register(request):
     alert ={} 
@@ -68,6 +71,11 @@ def register(request):
         return render(request,'accounts/register.html',{
             'alert':alert
         })
+
+    if (functions.validate_cpf(cpf)):
+        alert= functions.Alerts.alertError("Erro","Informe um CPF válido")
+        return render(request, 'accounts/register.html',{'alert':alert})
+        
     if len(senha) < 6:
         alert['type']=1 
         alert['title']="Erro" 
@@ -109,7 +117,6 @@ def register(request):
         alert['icon']="error" 
         return render(request, 'accounts/register.html',{'alert':alert})
 
-     
     user = User.objects.create_user(
         username=usuario,
         email=email,
@@ -122,4 +129,4 @@ def register(request):
     alert['icon']="success"
     funcionario = WorkerModel.Worker.objects.create(usuario = user,cpf=  cpf ,PhoneNumber = telefone, office = cargo)
     funcionario.save   
-    return render(request,'')
+    return render(request,'accounts/login.html')

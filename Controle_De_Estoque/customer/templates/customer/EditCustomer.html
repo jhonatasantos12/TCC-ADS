@@ -7,11 +7,11 @@
             <form action="{{ resultado.id }}" method="post">{% csrf_token %}
                 <div class="form-group row">
                     <label for="name" class="col-md-6 col-form-label text-md-right">Nome</label>
-                    <input value= "{{ resultado.nome }}"type="text" minlength="1" id="name" class="form-control justify-content:center col-md-2" name="name" required>
+                    <input  onkeypress="return onlylyrics();" value= "{{ resultado.nome }}"type="text" minlength="1" id="name" class="form-control justify-content:center col-md-2" name="name" required>
                 </div>
                 <div class="form-group row">
                     <label for="last_name" class="col-md-6 col-form-label text-md-right">Sobrenome</label>
-                    <input value = "{{ resultado.last_name }}"type="text" minlength="1" id="last_name" class="form-control justify-content:center col-md-2" name="last_name" class="width:300px" required>
+                    <input  onkeypress="return onlylyrics();" value = "{{ resultado.last_name }}"type="text" minlength="1" id="last_name" class="form-control justify-content:center col-md-2" name="last_name" class="width:300px" required>
                         
                 </div>
                 <div class="form-group row">
@@ -20,11 +20,11 @@
                 </div>
                 <div class="form-group row">
                     <label for="PhoneNumber" class="col-md-6 col-form-label text-md-right">Telefone</label>
-                    <input value ="{{ resultado.PhoneNumber }}"type="text"  id="PhoneNumber" class="form-control justify-content:center col-md-2" name="PhoneNumber" class="width:300px" required>
+                    <input value ="{{ resultado.PhoneNumber }}"type="text" maxlength="11" minlength="10" id="PhoneNumber" class="form-control justify-content:center col-md-2" name="PhoneNumber" class="width:300px" onkeypress="return onlynumber();" required>
                 </div>
                 <div class="form-group row">
                     <label for="bdaytime" class="col-md-6 col-form-label text-md-right">DataNascimento</label>
-                    <input  type="date"  value ="{{ resultado.Dt_Nascimento }}" id="bdaytime" class="form-control justify-content:center col-md-2" name="bdaytime" class="width:300px" >
+                    <input  type="date"  value ="{{ resultado.Dt_Nascimento|date:'Y-m-d' }}" id="bdaytime" class="form-control justify-content:center col-md-2" name="bdaytime" class="width:300px" >
                         
                 </div>
                 <div class="form-group row">

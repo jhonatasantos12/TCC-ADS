@@ -17,22 +17,22 @@
                 </div>
                 <div class="form-group row">
                     <label for="name" class="col-md-6 col-form-label text-md-right">Nome</label>
-                    <input type="text" minlength="1" id="name" value="{{request.POST.name}}" class="form-control justify-content:center col-md-2" name="name" >
+                    <input onkeypress="return onlylyrics();" type="text" minlength="1" id="name" value="{{request.POST.name}}" class="form-control justify-content:center col-md-2" name="name" >
                     
                 </div>
                 <div class="form-group row">
                     <label for="last_name" class="col-md-6 col-form-label text-md-right">Sobrenome</label>
-                    <input type="text" minlength="1" id="last_name" value="{{request.POST.last_name}}" class="form-control justify-content:center col-md-2" name="last_name" >
+                    <input  onkeypress="return onlylyrics();" type="text" minlength="1" id="last_name" value="{{request.POST.last_name}}" class="form-control justify-content:center col-md-2" name="last_name" >
                     
                 </div>
                 <div class="form-group row">
                     <label for="cpf" class="col-md-6 col-form-label text-md-right">CPF</label>
-                    <input onkeypress="return onlycpf();" type="text" maxlength="11" id="cpf" value="{{request.POST.cpf}}" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px">
+                    <input onkeypress="return onlycpf();" type="text"  minlength="11"maxlength="11" id="cpf" value="{{request.POST.cpf}}" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px">
                     
                 </div>
                 <div class="form-group row">
                     <label for="PhoneNumber" class="col-md-6 col-form-label text-md-right">Telefone</label>
-                    <input type="text" minlength="1" id="PhoneNumber" value="{{request.POST.PhoneNumber}}" class="form-control justify-content:center col-md-2" name="PhoneNumber" class="width:300px">
+                    <input onkeypress="return onlynumber();"type="text" minlength="10"maxlength="11"id="PhoneNumber" value="{{request.POST.PhoneNumber}}" class="form-control justify-content:center col-md-2" name="PhoneNumber" class="width:300px">
                 </div>
                 <div class="form-group row">
                     <label for="office" class="col-md-6 col-form-label text-md-right">Cargo</label>

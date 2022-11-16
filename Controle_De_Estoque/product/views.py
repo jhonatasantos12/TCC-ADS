@@ -4,6 +4,8 @@ from django.shortcuts import render
 from .models import Product
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
+from estoque import models as EstoqueModel
+from utils import functions
 # Create your views here.
 @csrf_exempt
 def AddProduct(request):
@@ -12,16 +14,24 @@ def AddProduct(request):
     nome = request.POST.get('product')
     valor = request.POST.get('value')
     if not nome or not valor:
-        return Http404 
+        alert = functions.Alerts.alertError("Erro","Todos os campos devem ser preenchidos")
+        return render(request,'product/AddProduct.html',context={"alert": alert} )
 
     if Product.objects.filter(nome= nome).exists():
-        return Http404
+        alert = functions.Alerts.alertError("Erro","Esse produto já está cadastrado")
+        return render(request,'product/AddProduct.html',context={"alert": alert} )
+    valorint = float(valor)
+    if valorint < 0:
+        alert = functions.Alerts.alertError("Erro","valor do produto deve ser maior que zero")
+        return render(request,'product/AddProduct.html',context={"alert": alert} )
     product = Product.objects.create(nome=nome,valor=valor)
     product.save()
+    estoque = EstoqueModel.Estoque.objects.create(produto = product, quantidade = 0)
+    estoque.save()
     alert={}
     alert['type']=1
     alert['title']="Sucesso"
-    alert['text']=f"{nome}, foi inserido com sucesso"
+    alert['text']=f"{nome}  foi inserido com sucesso"
     alert['icon']="success"
     return render(
         request,
@@ -32,7 +42,7 @@ def AddProduct(request):
         )
 
 def ListProduct(request,):
-    produtos = Product.objects.all()
+    produtos = Product.objects.all().order_by('-data_registro')
     paginator = Paginator(produtos,5)
     page = request.GET.get("produtos")
     produtos = paginator.get_page(page)
@@ -75,5 +85,6 @@ def GetProduct(request):
         dict['nome'] = x.nome
         lista.append(dict)
     return JsonResponse({'dict':lista})
+    
 def opcoes(request):
     return render(request,'product/opcoes.html')

@@ -8,7 +8,7 @@ class Worker(models.Model):
     cpf = models.CharField(max_length=11)
     PhoneNumber = models.CharField(max_length=13)
     office = models.CharField(max_length=100)
-    
+    data_registro = models.DateTimeField(auto_now_add=True)
     def GetAll(self):
         return  {
             'cpf': self.cpf,
