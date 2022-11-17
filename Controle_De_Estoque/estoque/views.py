@@ -39,7 +39,7 @@ def limite(request,estoque_id):
         maxInt = int(max)
         
     except:
-        maxInt = None
+        maxInt = None   
     estoque = MEstoque.objects.get(id = estoque_id)
     if minInt and minInt < 0 :
             alert = functions.Alerts.alertError("erro","O min deve ser maior que zero")
@@ -49,23 +49,11 @@ def limite(request,estoque_id):
             return render(request,'estoque/limites.html',context={'estoque': estoque,'alert':alert})
     if maxInt and minInt:
         if minInt >= maxInt:
-            alert ={}
-            alert['type']=1
-            alert['title']="WARNING"
-            alert['text']="O minimo não pode ser maior nem igual ao maximo"
-            alert['icon']="error"
-            return render(
-                request, 
-                'estoque/limites.html',
-                context={
-                    'estoque': estoque,
-                    'alert': alert,
-                }
-            )
-
-    if minInt:
+            alert = functions.Alerts.alertError("erro","O minimo não pode ser maior nem igual ao maximo")
+            return render(request,'estoque/limites.html',context={'estoque': estoque,'alert': alert,})
+    if minInt or minInt>=0:
         estoque.min_prod=min
-    if maxInt:
+    if maxInt or maxInt >=0:
         estoque.max_prod=max
     estoque.save()
     alert = functions.Alerts.alertSuccess('Succes','Alteração bem sucedida')

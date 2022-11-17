@@ -9,13 +9,13 @@
                     <thead>
                         <th scope="col">Id</td>
                         <th scope="col">Data</td>
-                        <th scope="col">Status</td>
+                        <th scope="col">Usuario</td>
                         <th scope="col"></td>                            
                         {% for pedido in pedidosEntrada %}
                         <tr>
                             <td scope="row">{{ pedido.id }}</td>
                             <td>{{ pedido.data_registro }}</td>
-                            <td>{{ pedido.Status.description }}</td>
+                            <td>{{ pedido.Atendente.usuario }}</td>
                             <td><a href="Detalhes/{{ pedido.id }}"><button  class="buttonC">Ver</button></td></a>
                         </tr>
                         {% endfor %}

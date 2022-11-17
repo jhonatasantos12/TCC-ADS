@@ -24,6 +24,7 @@ class ProdutoPedido(models.Model):
 class PedidoEntrada(models.Model):
     Atendente = models.ForeignKey(WorkerModel.Worker,on_delete=models.CASCADE,null=True)
     Status = models.ForeignKey(Categoria,on_delete=models.CASCADE,null=True)
+    description = models.CharField(max_length=800,null=True)
     data_registro = models.DateTimeField(auto_now_add=True)
     
 

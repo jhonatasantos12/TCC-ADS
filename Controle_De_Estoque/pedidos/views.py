@@ -15,9 +15,9 @@ from django.core.paginator import Paginator
 
 @login_required()
 def GetPedido(request,pedido_id):
+    Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
+    Categoria = PedidosModel.Categoria.objects.exclude(description=Pedido.Status.description)
     if request.method !='POST':
-        Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
-        
         ProdutosPedido = PedidosModel.ProdutoPedido.objects.filter(pedido = Pedido)
         if Pedido.Status.description == "Finalizado" or Pedido.Status.description == "Cancelado":
             alternable = False
@@ -28,16 +28,15 @@ def GetPedido(request,pedido_id):
         context={
         'Pedido':Pedido,
         'ProdutosPedido':ProdutosPedido,
-        'Categoria' :PedidosModel.Categoria.objects.all() ,
+        'Categoria' :Categoria,
         'IsAlternable' : alternable,
         }) 
     status = request.POST.get('newStatus')
-    pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
+    
     categoria = PedidosModel.Categoria.objects.get(id=status)
-    pedido.Status = categoria
-    pedido.save()
+    Pedido.Status = categoria
+    Pedido.save()
     alert = functions.Alerts.alertSuccess("Sucesso","Status de pedido alterado")
-    Pedido = PedidosModel.Pedido.objects.get(id= pedido_id)
     ProdutosPedido = PedidosModel.ProdutoPedido.objects.filter(pedido = Pedido)
     if Pedido.Status.description == "Finalizado" or Pedido.Status.description == "Cancelado":
         alternable = False
@@ -47,7 +46,7 @@ def GetPedido(request,pedido_id):
         context={
         'Pedido':Pedido,
         'ProdutosPedido':ProdutosPedido,
-        'Categoria' :PedidosModel.Categoria.objects.all() ,
+        'Categoria' : Categoria ,
         'IsAlternable' : alternable,
         "alert":alert
         }) 
@@ -120,18 +119,18 @@ def opcoes(request):
 
 @login_required(redirect_field_name='register')
 def GerarPedido(request):
+    Estoque =EstoqueModel.Estoque.objects.exclude(quantidade=0)
     if request.method !='POST':
         return render(request,'pedidos/GerarPedido.html',
         context={
             "Customers": CustomerModel.Customer.objects.all(),
-            "Estoque": EstoqueModel.Estoque.objects.all(),
+            "Estoque":Estoque ,
         })
     cliente = request.POST.get('cliente')
     user = request.POST.get('user')
     UserModel= User.objects.get(username = user)
     usuario =  WokerModel.Worker.objects.get(usuario = UserModel)
     if cliente != None:
-        Estoque = EstoqueModel.Estoque.objects.all()
         ProdPedido= {}
         ProdPedido['Produtos'] ={}
         ProdPedido['Cliente'] =  cliente
@@ -140,6 +139,15 @@ def GerarPedido(request):
                 produto = request.POST.get(str(x.produto.id))
             except:
                 produto = None
+            if produto != None and int(produto) <0:
+                alert = functions.Alerts.alertError("error","Não pode receber valores negativo")
+                return render (request,'pedidos/GerarPedido.html',
+                    context={
+                        "Customers": CustomerModel.Customer.objects.all(),
+                        "Estoque": Estoque,
+                        "Customer":CustomerModel.Customer.objects.get(id = cliente),
+                        "alert":alert
+                        })  
             if produto != None and int(produto) >0:
                 limiteEstq = EstoqueModel.Estoque.objects.get(produto = x.produto.id)
                 if int(produto) > limiteEstq.quantidade:
@@ -151,7 +159,7 @@ def GerarPedido(request):
                     return render (request,'pedidos/GerarPedido.html',
                     context={
                         "Customers": CustomerModel.Customer.objects.all(),
-                        "Estoque": EstoqueModel.Estoque.objects.all(),
+                        "Estoque": Estoque,
                         "Customer":CustomerModel.Customer.objects.get(id = cliente),
                         "alert":alert
                         })
@@ -171,7 +179,7 @@ def GerarPedido(request):
                 return render (request,'pedidos/GerarPedido.html',
                 context={
                     "Customers": CustomerModel.Customer.objects.all(),
-                    "Estoque": EstoqueModel.Estoque.objects.all(),
+                    "Estoque": Estoque,
                     "Customer":CustomerModel.Customer.objects.get(id = cliente),
                     "alert":alert
                     })
@@ -193,20 +201,20 @@ def GerarPedido(request):
             context={
                 "alert":alert,
                 "Customers": CustomerModel.Customer.objects.all(),
-                "Estoque": EstoqueModel.Estoque.objects.all(),
+                "Estoque": Estoque,
                 "Customer":CustomerModel.Customer.objects.get(id = cliente)
             })
         return render (request,'pedidos/GerarPedido.html',
             context={
                 "Customers": CustomerModel.Customer.objects.all(),
-                "Estoque": EstoqueModel.Estoque.objects.all(),
+                "Estoque": Estoque,
                 "Customer":CustomerModel.Customer.objects.get(id = cliente)
             })
         
     return render (request,'pedidos/GerarPedido.html',
      context={
             "Customers": CustomerModel.Customer.objects.all(),
-            "Estoque": EstoqueModel.Estoque.objects.all(),  
+            "Estoque": Estoque,  
         })
 
 def GerarEntrada(request):
@@ -230,20 +238,30 @@ def GerarEntrada(request):
     ProdPedido= {}
     ProdPedido['Produtos'] ={}
     user = request.POST.get('user')
+    description= request.POST.get('description')
+    print(description)
+    if description == None:
+        alert = functions.Alerts.alertError("error","Não pode registrar uma entrade sem uma descrição")
+        return render (request,'pedidos/GerarEntrada.html',context={"alert" :alert,"Estoque": EstoqueModel.Estoque.objects.all()})
     UserModel= User.objects.get(username = user)
     usuario =  WokerModel.Worker.objects.get(usuario = UserModel)
+    totalpedido=0
     for x in Estoque:
         try:
             produtoQtd = request.POST.get(str(x.produto.id))
+            totalpedido+=int(produtoQtd)
         except:
             produtoQtd = None
         ProdPedido['Produtos'][str(x.produto.id)] = {}
         ProdPedido['Produtos'][str(x.produto.id)]['Id'] = str(x.produto.id)
         ProdPedido['Produtos'][str(x.produto.id)]['NameProduct'] = str(x.produto.nome)
         ProdPedido['Produtos'][str(x.produto.id)]['Quantidade'] = produtoQtd
+    if totalpedido<=0:
+        alert = functions.Alerts.alertError("error","Não pode registrar entradas menores ou iguais a zero")
+        return render (request,'pedidos/GerarEntrada.html',context={"alert" :alert,"Estoque": EstoqueModel.Estoque.objects.all()}) 
     if  ProdPedido['Produtos']:
         status = PedidosModel.Categoria.objects.get(id = 5)
-        pedido = PedidosModel.PedidoEntrada.objects.create(Status= status,Atendente= usuario)
+        pedido = PedidosModel.PedidoEntrada.objects.create(Status= status,Atendente= usuario,description=description)
         pedido.save()
         for x in ProdPedido['Produtos']:
             if  int(ProdPedido['Produtos'][str(x)]['Quantidade']) <=0:

@@ -29,7 +29,10 @@
                                             <select name="newStatus"id = "newStatus">
                                                 <option value ="{{ Pedido.Status.id }}">{{ Pedido.Status.description }} </option>
                                                 {% for status in Categoria %}
-                                                    <option value ="{{status.id}}">{{status.description}}</option>
+                                                    {% if status == Pedido.Status.description %}
+                                                    {%else%}
+                                                        <option value ="{{status.id}}">{{status.description}}</option>
+                                                    {%endif%}
                                                 {% endfor %}
                                 
                                             </select>

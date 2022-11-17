@@ -4,7 +4,7 @@
 {%block 'conteudo'%}
 <div class="Pcontainer">
     <div class="row g-6">
-        <div class="form-group box">
+        <div style="width:auto" class="form-group box">
             <div> 
                 <div>
                     <form id ="form" action="{% url 'GerarEntrada' %}" method="post">
@@ -30,6 +30,8 @@
                                 {% endfor %}
                             </thead>
                         </table>
+                        <label for="description"class="col-md-6 col-form-label text-md-right"> Descrição</label>
+                        <input id="description" name="description"class="form-control justify-content:center col-md-2"type="text" minlength="10" maxlength="500" required>
                         <button type="submit"  class="buttonC" >Confirmar Entrada</button>
                     </form>
                 </div>

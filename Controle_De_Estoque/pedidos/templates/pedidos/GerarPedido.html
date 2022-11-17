@@ -4,7 +4,11 @@
 {%block 'conteudo'%}
 <div class="Pcontainer">
     <div class="row g-6">
-        <div class="form-group box">
+        {% if request.POST.cliente %}
+            <div style="width:auto" class="form-group box">
+        {%else%}
+            <div class="form-group box">
+        {%endif%}    
             <div> 
                 {% if request.POST.cliente %}
                     Você está atendendo o Cliente : {{Customer.nome}} {{Customer.last_name}}<br>
